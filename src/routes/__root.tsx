@@ -4,6 +4,7 @@ import {
   Link,
   createRootRouteWithContext,
   useRouter,
+  useRouterState,
   HeadContent,
   Scripts,
 } from "@tanstack/react-router";
@@ -11,6 +12,9 @@ import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
+import { AppSidebar } from "@/components/app-sidebar";
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { Toaster } from "@/components/ui/sonner";
 
 function NotFoundComponent() {
   return (
@@ -77,14 +81,13 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
-      { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Lovable Generated Project" },
+      { title: "IntelTrace — Cybercrime Evidence & Forensic Console" },
+      { name: "description", content: "AI-assisted cybercrime evidence investigation and digital forensics platform for cyber cells and forensic teams." },
+      { name: "author", content: "IntelTrace" },
+      { property: "og:title", content: "IntelTrace — Forensic Console" },
+      { property: "og:description", content: "Upload, verify, and analyze digital evidence with AI-assisted forensics." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:site", content: "@Lovable" },
     ],
     links: [
       {
@@ -116,11 +119,36 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+  const pathname = useRouterState({ select: (r) => r.location.pathname });
+  const isLogin = pathname === "/login";
 
   return (
     <QueryClientProvider client={queryClient}>
-      {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-      <Outlet />
+      {isLogin ? (
+        <Outlet />
+      ) : (
+        <SidebarProvider>
+          <div className="flex min-h-screen w-full bg-background text-foreground">
+            <AppSidebar />
+            <div className="flex-1 flex flex-col min-w-0">
+              <header className="sticky top-0 z-20 h-12 flex items-center gap-3 border-b border-border bg-background/80 backdrop-blur px-3">
+                <SidebarTrigger />
+                <div className="text-xs uppercase tracking-widest text-muted-foreground">
+                  IntelTrace / Investigation Console
+                </div>
+                <div className="ml-auto flex items-center gap-2 text-xs text-muted-foreground">
+                  <span className="inline-block h-2 w-2 rounded-full bg-[color:var(--risk-low)]" />
+                  Secure session · Insp. R. Nair (Lead Investigator)
+                </div>
+              </header>
+              <main className="flex-1 p-6">
+                <Outlet />
+              </main>
+            </div>
+          </div>
+        </SidebarProvider>
+      )}
+      <Toaster />
     </QueryClientProvider>
   );
 }
