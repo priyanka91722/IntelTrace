@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { cases, evidence, riskColor } from "@/lib/mock-data";
+import { cases, evidence, riskColor, type Evidence } from "@/lib/mock-data";
 import { ArrowLeft, FileText, Upload, Clock, ShieldCheck } from "lucide-react";
 
 export const Route = createFileRoute("/cases/$caseId")({
@@ -54,7 +54,7 @@ function CaseDetail() {
       <div className="grid gap-4 md:grid-cols-3">
         <Card><CardContent className="p-4"><div className="text-xs uppercase tracking-widest text-muted-foreground">Evidence items</div><div className="text-2xl font-semibold mt-1">{items.length}</div></CardContent></Card>
         <Card><CardContent className="p-4"><div className="text-xs uppercase tracking-widest text-muted-foreground">Investigators</div><div className="text-sm mt-2">{c.investigators.join(", ")}</div></CardContent></Card>
-        <Card><CardContent className="p-4"><div className="text-xs uppercase tracking-widest text-muted-foreground">Integrity</div><div className="mt-2 flex items-center gap-2 text-sm"><ShieldCheck className="h-4 w-4 text-[color:var(--risk-low)]" /> {items.filter(i => i.verified).length}/{items.length} hash-verified</div></CardContent></Card>
+        <Card><CardContent className="p-4"><div className="text-xs uppercase tracking-widest text-muted-foreground">Integrity</div><div className="mt-2 flex items-center gap-2 text-sm"><ShieldCheck className="h-4 w-4 text-[color:var(--risk-low)]" /> {items.filter((i: Evidence) => i.verified).length}/{items.length} hash-verified</div></CardContent></Card>
       </div>
 
       <Card>
@@ -76,7 +76,7 @@ function CaseDetail() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {items.map((e) => (
+              {items.map((e: Evidence) => (
                 <TableRow key={e.id}>
                   <TableCell className="font-mono text-xs">{e.id}</TableCell>
                   <TableCell className="font-medium">{e.name}</TableCell>
