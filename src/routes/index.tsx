@@ -65,9 +65,9 @@ function Dashboard() {
 
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         <Stat icon={FolderKanban} label="Total Cases" value={stats.totalCases} hint={`${stats.openCases} currently open`} />
-        <Stat icon={FileSearch} label="Pending Analysis" value={stats.pendingAnalysis} hint="Evidence awaiting AI review" tone="medium" />
+        <Stat icon={FileSearch} label="Pending Analysis" value={stats.pendingAnalysis} hint="Files not analysed yet" tone="medium" />
         <Stat icon={AlertTriangle} label="High-Risk Flags" value={stats.highRiskFlags} hint="Across all active cases" tone="high" />
-        <Stat icon={ShieldCheck} label="Evidence Items" value={stats.evidenceItems} hint="Hash-verified in vault" tone="low" />
+        <Stat icon={ShieldCheck} label="Evidence Items" value={stats.evidenceItems} hint="Stored with SHA-256 hash" tone="low" />
       </div>
 
       <div className="grid gap-4 lg:grid-cols-3">
@@ -141,6 +141,23 @@ function Dashboard() {
               </div>
             </Link>
           ))}
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-base">Project Status</CardTitle>
+          <CardDescription>What we finished in the 4 weeks and what is still left</CardDescription>
+        </CardHeader>
+        <CardContent className="text-sm">
+          <ul className="space-y-1">
+            <li>Week 1 — Login page, sidebar layout, sample data file (done)</li>
+            <li>Week 2 — Case list, case details, evidence upload with SHA-256 (done)</li>
+            <li>Week 3 — Hash check, chain of custody, log analysis (done)</li>
+            <li>Week 4 — Financial anomaly, timeline, report + 65B certificate (done)</li>
+            <li className="text-muted-foreground">Pending — OCR / chat analysis and deepfake check (not started)</li>
+            <li className="text-muted-foreground">Pending — real backend and database (currently sample data only)</li>
+          </ul>
         </CardContent>
       </Card>
     </div>
