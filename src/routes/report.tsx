@@ -29,7 +29,7 @@ function Report() {
     <div className="space-y-6">
       <div className="flex items-end justify-between flex-wrap gap-2">
         <div>
-          <h1 className="text-2xl font-semibold tracking-tight">Forensic Report</h1>
+          <h1 className="text-xl font-semibold">Forensic Report</h1>
           <p className="text-sm text-muted-foreground">Case dossier compiled from all evidence, analyses, and chain of custody.</p>
         </div>
         <div className="flex gap-2">
@@ -46,9 +46,9 @@ function Report() {
           <CardDescription>{c.description}</CardDescription>
         </CardHeader>
         <CardContent className="grid gap-4 md:grid-cols-3 text-sm">
-          <div><div className="text-xs uppercase tracking-widest text-muted-foreground">Opened</div><div className="mt-1">{c.dateOpened}</div></div>
-          <div><div className="text-xs uppercase tracking-widest text-muted-foreground">Risk</div><div className="mt-1"><Badge variant="outline" className={riskColor(c.riskLevel)}>{c.riskLevel}</Badge></div></div>
-          <div><div className="text-xs uppercase tracking-widest text-muted-foreground">Assigned</div><div className="mt-1">{c.investigators.join(", ")}</div></div>
+          <div><div className="text-xs text-muted-foreground">Opened</div><div className="mt-1">{c.dateOpened}</div></div>
+          <div><div className="text-xs text-muted-foreground">Risk</div><div className="mt-1"><Badge variant="outline" className={riskColor(c.riskLevel)}>{c.riskLevel}</Badge></div></div>
+          <div><div className="text-xs text-muted-foreground">Assigned</div><div className="mt-1">{c.investigators.join(", ")}</div></div>
         </CardContent>
       </Card>
 
@@ -84,7 +84,7 @@ function Report() {
         <DialogContent className="max-w-2xl">
           <DialogHeader><DialogTitle>Section 65B Certificate (Indian Evidence Act)</DialogTitle></DialogHeader>
           <div className="rounded-md border border-border bg-muted/30 p-5 text-sm font-serif leading-relaxed max-h-[60vh] overflow-auto">
-            <p className="text-center font-semibold uppercase tracking-widest">Certificate under Section 65B(4)</p>
+            <p className="text-center font-semibold">Certificate under Section 65B(4)</p>
             <p className="mt-4">I, <b>Inspector R. Nair</b>, Investigating Officer of Cyber Cell, hereby certify in relation to case <b>{c.id} — {c.name}</b> that:</p>
             <ol className="list-decimal list-inside space-y-2 mt-3">
               <li>The electronic records annexed hereto were produced by the IntelTrace forensic console running on secured workstation <b>FRN-WKS-11</b>.</li>

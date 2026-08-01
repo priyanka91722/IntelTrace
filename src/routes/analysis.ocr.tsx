@@ -34,7 +34,7 @@ function OcrPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-semibold tracking-tight">OCR & Chat Analysis</h1>
+        <h1 className="text-xl font-semibold">OCR & Chat Analysis</h1>
         <p className="text-sm text-muted-foreground">Extract text from chat screenshots and classify by fraud category.</p>
       </div>
 
@@ -44,7 +44,7 @@ function OcrPage() {
           <CardContent>
             <div className="rounded-md border-2 border-dashed border-border p-8 text-center">
               <div className="mx-auto w-64 rounded-md bg-[oklch(0.28_0.03_250)] p-4 text-left text-xs shadow-inner">
-                <div className="text-[10px] uppercase tracking-widest text-muted-foreground mb-2">WhatsApp · +91 98•••••23</div>
+                <div className="text-[10px] text-muted-foreground mb-2">WhatsApp · +91 98•••••23</div>
                 <div className="rounded-md bg-[oklch(0.4_0.05_150)]/20 p-2 mb-1">Hi, congratulations! You have been shortlisted…</div>
                 <div className="rounded-md bg-[oklch(0.4_0.05_150)]/20 p-2 mb-1">…pay a refundable security deposit of Rs 4,999 via UPI…</div>
                 <div className="rounded-md bg-[oklch(0.4_0.05_150)]/20 p-2">Do not share this OTP with anyone else.</div>
@@ -71,9 +71,9 @@ function OcrPage() {
           <CardContent>
             {analyzed && (
               <>
-                <div className="text-xs uppercase tracking-widest text-muted-foreground mb-2">Extracted Text</div>
+                <div className="text-xs text-muted-foreground mb-2">Extracted Text</div>
                 <p className="text-sm leading-relaxed rounded-md border border-border p-3 bg-muted/30">{highlight(r.raw, r.flagged)}</p>
-                <div className="text-xs uppercase tracking-widest text-muted-foreground mt-4 mb-2">Flagged keywords</div>
+                <div className="text-xs text-muted-foreground mt-4 mb-2">Flagged keywords</div>
                 <div className="flex flex-wrap gap-1">
                   {r.flagged.map((k) => <Badge key={k} variant="outline" className="text-[color:var(--risk-high)] border-[color:var(--risk-high)]/40 bg-[color:var(--risk-high)]/10">{k}</Badge>)}
                 </div>

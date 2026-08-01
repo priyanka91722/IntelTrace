@@ -42,7 +42,7 @@ function Financial() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-semibold tracking-tight">Financial Anomaly Analyzer</h1>
+        <h1 className="text-xl font-semibold">Financial Anomaly Analyzer</h1>
         <p className="text-sm text-muted-foreground">Every transaction is scored 0–100 based on duplication, timing, round-amount, and velocity heuristics.</p>
       </div>
 

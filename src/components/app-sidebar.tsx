@@ -29,7 +29,7 @@ import {
 
 const groups = [
   {
-    label: "Overview",
+    label: "Main",
     items: [
       { title: "Dashboard", url: "/", icon: LayoutDashboard },
       { title: "Cases", url: "/cases", icon: FolderKanban },
@@ -38,25 +38,25 @@ const groups = [
   {
     label: "Evidence",
     items: [
-      { title: "Upload", url: "/evidence/upload", icon: Upload },
-      { title: "Integrity", url: "/evidence/integrity", icon: ShieldCheck },
+      { title: "Upload Evidence", url: "/evidence/upload", icon: Upload },
+      { title: "Hash Check", url: "/evidence/integrity", icon: ShieldCheck },
       { title: "Chain of Custody", url: "/custody", icon: ScrollText },
     ],
   },
   {
-    label: "AI Analysis",
+    label: "Analysis Modules",
     items: [
-      { title: "Financial Anomalies", url: "/analysis/financial", icon: Banknote },
-      { title: "System Logs", url: "/analysis/logs", icon: Activity },
-      { title: "OCR & Chat", url: "/analysis/ocr", icon: ScanText },
+      { title: "Financial Anomaly", url: "/analysis/financial", icon: Banknote },
+      { title: "Log Analysis", url: "/analysis/logs", icon: Activity },
+      { title: "OCR / Chat", url: "/analysis/ocr", icon: ScanText },
       { title: "Deepfake Check", url: "/analysis/deepfake", icon: Video },
     ],
   },
   {
-    label: "Reporting",
+    label: "Output",
     items: [
       { title: "Timeline", url: "/timeline", icon: Clock },
-      { title: "Forensic Report", url: "/report", icon: FileText },
+      { title: "Report", url: "/report", icon: FileText },
     ],
   },
 ];
@@ -70,14 +70,10 @@ export function AppSidebar() {
     <Sidebar collapsible="icon">
       <SidebarHeader>
         <Link to="/" className="flex items-center gap-2 px-2 py-3">
-          <div className="flex h-8 w-8 items-center justify-center rounded-md bg-primary/15 text-primary ring-1 ring-primary/30">
-            <Shield className="h-4 w-4" />
-          </div>
+          <Shield className="h-5 w-5" />
           <div className="flex flex-col">
-            <span className="text-sm font-semibold tracking-wide">IntelTrace</span>
-            <span className="text-[10px] uppercase tracking-widest text-muted-foreground">
-              Forensic Console
-            </span>
+            <span className="text-sm font-semibold">IntelTrace</span>
+            <span className="text-xs opacity-70">Mini Project v0.4</span>
           </div>
         </Link>
       </SidebarHeader>

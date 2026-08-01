@@ -23,32 +23,20 @@ function Login() {
   const navigate = useNavigate();
   const [role, setRole] = useState("lead");
   return (
-    <div className="min-h-screen w-full grid lg:grid-cols-2 bg-background text-foreground">
-      <div className="hidden lg:flex flex-col justify-between p-10 bg-sidebar border-r border-border">
-        <div className="flex items-center gap-3">
-          <div className="flex h-10 w-10 items-center justify-center rounded-md bg-primary/15 text-primary ring-1 ring-primary/30">
-            <Shield className="h-5 w-5" />
-          </div>
-          <div>
-            <div className="text-lg font-semibold tracking-wide">IntelTrace</div>
-            <div className="text-[10px] uppercase tracking-widest text-muted-foreground">Cybercrime Evidence Console</div>
-          </div>
-        </div>
-        <div className="space-y-4 max-w-md">
-          <div className="text-xs uppercase tracking-widest text-primary">Restricted access</div>
-          <h2 className="text-3xl font-semibold leading-tight">Chain-of-custody grade digital forensics for modern cyber cells.</h2>
-          <p className="text-sm text-muted-foreground">Hash-verified evidence intake, AI-assisted anomaly detection, deepfake verification, and Section 65B report generation — in one auditable console.</p>
-        </div>
-        <div className="text-xs text-muted-foreground">
-          Authorized use only. All actions are logged in the chain of custody register.
+    <div className="min-h-screen w-full flex flex-col bg-background text-foreground">
+      <div className="bg-sidebar text-sidebar-foreground px-6 py-4 flex items-center gap-2">
+        <Shield className="h-5 w-5" />
+        <div>
+          <div className="font-semibold">IntelTrace</div>
+          <div className="text-xs opacity-75">Cybercrime Evidence Investigation System</div>
         </div>
       </div>
 
-      <div className="flex items-center justify-center p-6">
+      <div className="flex flex-1 items-center justify-center p-6">
         <Card className="w-full max-w-md">
           <CardHeader>
-            <CardTitle className="flex items-center gap-2"><Lock className="h-4 w-4 text-primary" /> Investigator Sign-in</CardTitle>
-            <CardDescription>Enter your credentials and select your assigned role.</CardDescription>
+            <CardTitle className="flex items-center gap-2 text-base"><Lock className="h-4 w-4" /> Login</CardTitle>
+            <CardDescription>Enter your details and select a role to continue.</CardDescription>
           </CardHeader>
           <CardContent>
             <form
@@ -85,12 +73,15 @@ function Login() {
                   ))}
                 </RadioGroup>
               </div>
-              <Button type="submit" className="w-full">Enter Console</Button>
-              <p className="text-[11px] text-muted-foreground text-center">Demo build — any credentials will sign you in.</p>
-              <Link to="/" className="block text-center text-xs text-muted-foreground hover:text-primary">Skip to dashboard</Link>
+              <Button type="submit" className="w-full">Login</Button>
+              <p className="text-xs text-muted-foreground text-center">Note: this is a demo login, any values will work.</p>
+              <Link to="/" className="block text-center text-xs text-muted-foreground hover:underline">Skip to dashboard</Link>
             </form>
           </CardContent>
         </Card>
+      </div>
+      <div className="px-6 py-3 text-center text-xs text-muted-foreground">
+        Mini Project by Team 04 — R. Nair, A. Kapoor, M. Sharma, P. Desai
       </div>
     </div>
   );

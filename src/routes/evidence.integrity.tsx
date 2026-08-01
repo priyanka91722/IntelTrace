@@ -27,14 +27,14 @@ function Integrity() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-semibold tracking-tight">Evidence Integrity</h1>
+        <h1 className="text-xl font-semibold">Evidence Integrity</h1>
         <p className="text-sm text-muted-foreground">Cryptographic verification ensures no evidence has been altered post-ingest.</p>
       </div>
 
       <div className="grid gap-4 md:grid-cols-3">
-        <Card><CardContent className="p-4"><div className="text-xs uppercase tracking-widest text-muted-foreground">Verified</div><div className="mt-1 text-2xl font-semibold text-[color:var(--risk-low)]">{verified}</div></CardContent></Card>
-        <Card><CardContent className="p-4"><div className="text-xs uppercase tracking-widest text-muted-foreground">Tampered</div><div className="mt-1 text-2xl font-semibold text-[color:var(--risk-high)]">{rows.length - verified}</div></CardContent></Card>
-        <Card><CardContent className="p-4"><div className="text-xs uppercase tracking-widest text-muted-foreground">Total items</div><div className="mt-1 text-2xl font-semibold">{rows.length}</div></CardContent></Card>
+        <Card><CardContent className="p-4"><div className="text-xs text-muted-foreground">Verified</div><div className="mt-1 text-2xl font-semibold text-[color:var(--risk-low)]">{verified}</div></CardContent></Card>
+        <Card><CardContent className="p-4"><div className="text-xs text-muted-foreground">Tampered</div><div className="mt-1 text-2xl font-semibold text-[color:var(--risk-high)]">{rows.length - verified}</div></CardContent></Card>
+        <Card><CardContent className="p-4"><div className="text-xs text-muted-foreground">Total items</div><div className="mt-1 text-2xl font-semibold">{rows.length}</div></CardContent></Card>
       </div>
 
       <Card>

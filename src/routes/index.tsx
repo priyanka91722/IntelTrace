@@ -40,12 +40,12 @@ function Stat({ icon: Icon, label, value, hint, tone = "primary" }: { icon: any;
   const toneCls = tone === "high" ? "text-[color:var(--risk-high)]" : tone === "medium" ? "text-[color:var(--risk-medium)]" : tone === "low" ? "text-[color:var(--risk-low)]" : "text-primary";
   return (
     <Card>
-      <CardContent className="p-5">
+      <CardContent className="p-4">
         <div className="flex items-center justify-between">
-          <span className="text-xs uppercase tracking-widest text-muted-foreground">{label}</span>
+          <span className="text-sm text-muted-foreground">{label}</span>
           <Icon className={`h-4 w-4 ${toneCls}`} />
         </div>
-        <div className={`mt-2 text-3xl font-semibold tracking-tight ${toneCls}`}>{value}</div>
+        <div className={`mt-2 text-2xl font-semibold ${toneCls}`}>{value}</div>
         {hint && <div className="mt-1 text-xs text-muted-foreground">{hint}</div>}
       </CardContent>
     </Card>
@@ -57,10 +57,10 @@ function Dashboard() {
     <div className="space-y-6">
       <div className="flex items-end justify-between flex-wrap gap-2">
         <div>
-          <h1 className="text-2xl font-semibold tracking-tight">Investigation Dashboard</h1>
-          <p className="text-sm text-muted-foreground">Real-time overview of active cybercrime cases and forensic pipeline.</p>
+          <h1 className="text-xl font-semibold">Dashboard</h1>
+          <p className="text-sm text-muted-foreground">Summary of the cases and evidence stored in the system (sample data).</p>
         </div>
-        <Link to="/cases" className="text-xs uppercase tracking-widest text-primary hover:underline">View all cases →</Link>
+        <Link to="/cases" className="text-sm text-primary hover:underline">View all cases</Link>
       </div>
 
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
@@ -73,8 +73,8 @@ function Dashboard() {
       <div className="grid gap-4 lg:grid-cols-3">
         <Card className="lg:col-span-2">
           <CardHeader>
-            <CardTitle className="text-base flex items-center gap-2"><TrendingUp className="h-4 w-4 text-primary" /> Weekly Ingest & Flag Activity</CardTitle>
-            <CardDescription>Evidence uploads vs. AI-flagged anomalies (last 7 days)</CardDescription>
+            <CardTitle className="text-base flex items-center gap-2"><TrendingUp className="h-4 w-4 text-primary" /> Uploads This Week</CardTitle>
+            <CardDescription>Number of files uploaded and how many were flagged</CardDescription>
           </CardHeader>
           <CardContent className="h-64">
             <ResponsiveContainer width="100%" height="100%">
@@ -93,7 +93,7 @@ function Dashboard() {
         <Card>
           <CardHeader>
             <CardTitle className="text-base flex items-center gap-2"><Activity className="h-4 w-4 text-primary" /> Recent Activity</CardTitle>
-            <CardDescription>Latest chain-of-custody events</CardDescription>
+            <CardDescription>Last few custody log entries</CardDescription>
           </CardHeader>
           <CardContent className="space-y-3">
             {custody.slice(-6).reverse().map((c) => (
@@ -116,7 +116,7 @@ function Dashboard() {
       <Card>
         <CardHeader>
           <CardTitle className="text-base">Active Cases</CardTitle>
-          <CardDescription>Ongoing investigations sorted by risk</CardDescription>
+          <CardDescription>Cases that are still open or under review</CardDescription>
         </CardHeader>
         <CardContent className="space-y-3">
           {cases.filter(c => c.status !== "Closed").map((c) => (

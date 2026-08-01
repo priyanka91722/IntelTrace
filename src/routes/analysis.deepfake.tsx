@@ -24,7 +24,7 @@ function Deepfake() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-semibold tracking-tight">Deepfake & Media Verification</h1>
+        <h1 className="text-xl font-semibold">Deepfake & Media Verification</h1>
         <p className="text-sm text-muted-foreground">Detects GAN fingerprints, blink-rate inconsistency, and audio-lip desynchronization.</p>
       </div>
 
@@ -56,7 +56,7 @@ function Deepfake() {
             </div>
 
             <div>
-              <div className="text-xs uppercase tracking-widest text-muted-foreground mb-2">Detection cues</div>
+              <div className="text-xs text-muted-foreground mb-2">Detection cues</div>
               <div className="space-y-1">
                 {r.cues.map((c) => (
                   <div key={c} className="flex items-center justify-between text-sm">
