@@ -48,8 +48,8 @@ const groups = [
     items: [
       { title: "Financial Anomaly", url: "/analysis/financial", icon: Banknote },
       { title: "Log Analysis", url: "/analysis/logs", icon: Activity },
-      { title: "OCR / Chat", url: "/analysis/ocr", icon: ScanText },
-      { title: "Deepfake Check", url: "/analysis/deepfake", icon: Video },
+      { title: "OCR / Chat", url: "/analysis/ocr", icon: ScanText, planned: true },
+      { title: "Deepfake Check", url: "/analysis/deepfake", icon: Video, planned: true },
     ],
   },
   {
@@ -89,6 +89,9 @@ export function AppSidebar() {
                       <Link to={item.url} className="flex items-center gap-2">
                         <item.icon className="h-4 w-4" />
                         <span>{item.title}</span>
+                        {"planned" in item && item.planned && (
+                          <span className="ml-auto text-[10px] opacity-60">soon</span>
+                        )}
                       </Link>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
