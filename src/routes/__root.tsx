@@ -131,19 +131,20 @@ function RootComponent() {
           <div className="flex min-h-screen w-full bg-background text-foreground">
             <AppSidebar />
             <div className="flex-1 flex flex-col min-w-0">
-              <header className="sticky top-0 z-20 h-12 flex items-center gap-3 border-b border-border bg-background/80 backdrop-blur px-3">
+              <header className="h-12 flex items-center gap-3 border-b border-border bg-card px-3">
                 <SidebarTrigger />
-                <div className="text-xs uppercase tracking-widest text-muted-foreground">
-                  IntelTrace / Investigation Console
-                </div>
-                <div className="ml-auto flex items-center gap-2 text-xs text-muted-foreground">
-                  <span className="inline-block h-2 w-2 rounded-full bg-[color:var(--risk-low)]" />
-                  Secure session · Insp. R. Nair (Lead Investigator)
+                <div className="text-sm font-medium">IntelTrace</div>
+                <div className="ml-auto text-xs text-muted-foreground">
+                  Logged in as: R. Nair (Lead Investigator)
                 </div>
               </header>
               <main className="flex-1 p-6">
                 <Outlet />
               </main>
+              <footer className="border-t border-border px-6 py-3 text-xs text-muted-foreground">
+                IntelTrace — Mini Project (Semester VI). Team: R. Nair, A. Kapoor, M. Sharma, P. Desai.
+                Demo build using sample data only.
+              </footer>
             </div>
           </div>
         </SidebarProvider>
