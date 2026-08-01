@@ -29,7 +29,7 @@ function Timeline() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-semibold tracking-tight">Timeline Reconstruction</h1>
+        <h1 className="text-xl font-semibold">Timeline Reconstruction</h1>
         <p className="text-sm text-muted-foreground">Cross-source chronological view · CASE-2404 · Insider Data Leak</p>
       </div>
 

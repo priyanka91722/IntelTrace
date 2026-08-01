@@ -36,7 +36,7 @@ function CaseDetail() {
 
       <div className="flex items-start justify-between flex-wrap gap-3">
         <div>
-          <h1 className="text-2xl font-semibold tracking-tight">{c.name}</h1>
+          <h1 className="text-xl font-semibold">{c.name}</h1>
           <p className="text-sm text-muted-foreground max-w-2xl">{c.description}</p>
           <div className="mt-3 flex items-center gap-2">
             <Badge variant="outline">{c.status}</Badge>
@@ -52,9 +52,9 @@ function CaseDetail() {
       </div>
 
       <div className="grid gap-4 md:grid-cols-3">
-        <Card><CardContent className="p-4"><div className="text-xs uppercase tracking-widest text-muted-foreground">Evidence items</div><div className="text-2xl font-semibold mt-1">{items.length}</div></CardContent></Card>
-        <Card><CardContent className="p-4"><div className="text-xs uppercase tracking-widest text-muted-foreground">Investigators</div><div className="text-sm mt-2">{c.investigators.join(", ")}</div></CardContent></Card>
-        <Card><CardContent className="p-4"><div className="text-xs uppercase tracking-widest text-muted-foreground">Integrity</div><div className="mt-2 flex items-center gap-2 text-sm"><ShieldCheck className="h-4 w-4 text-[color:var(--risk-low)]" /> {items.filter((i: Evidence) => i.verified).length}/{items.length} hash-verified</div></CardContent></Card>
+        <Card><CardContent className="p-4"><div className="text-xs text-muted-foreground">Evidence items</div><div className="text-2xl font-semibold mt-1">{items.length}</div></CardContent></Card>
+        <Card><CardContent className="p-4"><div className="text-xs text-muted-foreground">Investigators</div><div className="text-sm mt-2">{c.investigators.join(", ")}</div></CardContent></Card>
+        <Card><CardContent className="p-4"><div className="text-xs text-muted-foreground">Integrity</div><div className="mt-2 flex items-center gap-2 text-sm"><ShieldCheck className="h-4 w-4 text-[color:var(--risk-low)]" /> {items.filter((i: Evidence) => i.verified).length}/{items.length} hash-verified</div></CardContent></Card>
       </div>
 
       <Card>

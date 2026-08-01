@@ -54,7 +54,7 @@ function UploadPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-semibold tracking-tight">Evidence Upload</h1>
+        <h1 className="text-xl font-semibold">Evidence Upload</h1>
         <p className="text-sm text-muted-foreground">Drop files to ingest. Each item is hashed with SHA-256 and tagged automatically.</p>
       </div>
 

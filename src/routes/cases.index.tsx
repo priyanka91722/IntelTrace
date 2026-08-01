@@ -41,7 +41,7 @@ function CasesList() {
     <div className="space-y-6">
       <div className="flex items-end justify-between flex-wrap gap-3">
         <div>
-          <h1 className="text-2xl font-semibold tracking-tight">Case Management</h1>
+          <h1 className="text-xl font-semibold">Case Management</h1>
           <p className="text-sm text-muted-foreground">All investigations assigned to this cyber cell.</p>
         </div>
         <Dialog open={open} onOpenChange={setOpen}>
