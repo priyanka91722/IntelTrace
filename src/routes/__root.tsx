@@ -142,7 +142,7 @@ function RootComponent() {
                 <Outlet />
               </main>
               <footer className="border-t border-border px-6 py-3 text-xs text-muted-foreground">
-                IntelTrace © 2026 — demo build using sample data only.
+                IntelTrace © 2026
               </footer>
             </div>
           </div>
