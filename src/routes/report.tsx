@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { cases, evidence, timeline, riskColor } from "@/lib/mock-data";
+import { cases, evidence, riskColor } from "@/lib/mock-data";
 import { Download, FileSignature, ShieldCheck } from "lucide-react";
 import { toast } from "sonner";
 
@@ -30,7 +30,7 @@ function Report() {
       <div className="flex items-end justify-between flex-wrap gap-2">
         <div>
           <h1 className="text-xl font-semibold">Forensic Report</h1>
-          <p className="text-sm text-muted-foreground">Case dossier compiled from all evidence, analyses, and chain of custody.</p>
+          <p className="text-sm text-muted-foreground">Basic summary of a case with its evidence and hash values.</p>
         </div>
         <div className="flex gap-2">
           <Button variant="outline" onClick={() => setOpen(true)}><FileSignature className="mr-1 h-4 w-4" /> Generate Section 65B</Button>
@@ -67,35 +67,19 @@ function Report() {
         </CardContent>
       </Card>
 
-      <Card>
-        <CardHeader><CardTitle className="text-base">Findings Timeline</CardTitle></CardHeader>
-        <CardContent className="space-y-2 text-sm">
-          {timeline.slice(0, 6).map((t, i) => (
-            <div key={i} className="flex items-center gap-3">
-              <span className="font-mono text-xs text-muted-foreground w-14">{t.time}</span>
-              <span className="flex-1">{t.label} — <span className="text-muted-foreground">{t.detail}</span></span>
-              <Badge variant="outline" className={riskColor(t.risk)}>{t.risk}</Badge>
-            </div>
-          ))}
-        </CardContent>
-      </Card>
-
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent className="max-w-2xl">
           <DialogHeader><DialogTitle>Section 65B Certificate (Indian Evidence Act)</DialogTitle></DialogHeader>
           <div className="rounded-md border border-border bg-muted/30 p-5 text-sm font-serif leading-relaxed max-h-[60vh] overflow-auto">
             <p className="text-center font-semibold">Certificate under Section 65B(4)</p>
-            <p className="mt-4">I, <b>Inspector R. Nair</b>, Investigating Officer of Cyber Cell, hereby certify in relation to case <b>{c.id} — {c.name}</b> that:</p>
+            <p className="mt-4">I, <b>R. Nair</b>, hereby certify in relation to case <b>{c.id} — {c.name}</b> that:</p>
             <ol className="list-decimal list-inside space-y-2 mt-3">
-              <li>The electronic records annexed hereto were produced by the IntelTrace forensic console running on secured workstation <b>FRN-WKS-11</b>.</li>
-              <li>During the said period the said computer was operating properly and was regularly used to store and process information for the purposes of investigation.</li>
-              <li>The information contained in the electronic records is derived from information fed into the computer in the ordinary course of the said activities.</li>
-              <li>The following SHA-256 hash values verify the integrity of each item:
+              <li>The electronic records were produced using the IntelTrace system, which was working normally at the time.</li>
+              <li>The SHA-256 hash values below verify the integrity of each item:
                 <ul className="list-disc list-inside ml-4 mt-1 font-mono text-[11px]">
                   {items.map((e) => <li key={e.id}>{e.id} · {e.name} · {e.sha256.slice(0, 32)}…</li>)}
                 </ul>
               </li>
-              <li>Chain of custody has been maintained throughout and is available in the audit trail.</li>
             </ol>
             <div className="mt-8 grid grid-cols-2 gap-4 text-xs">
               <div>
