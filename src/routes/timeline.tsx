@@ -30,7 +30,7 @@ function Timeline() {
     <div className="space-y-6">
       <div>
         <h1 className="text-xl font-semibold">Timeline Reconstruction</h1>
-        <p className="text-sm text-muted-foreground">Cross-source chronological view · CASE-2404 · Insider Data Leak</p>
+        <p className="text-sm text-muted-foreground">Cross-source chronological view · CASE-002 · Insider Data Leak</p>
       </div>
 
       <Card>

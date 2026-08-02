@@ -22,64 +22,24 @@ export interface Case {
 
 export const cases: Case[] = [
   {
-    id: "CASE-2401",
-    name: "Operation Nightshade",
-    description: "Cross-border UPI fraud ring targeting senior citizens via fake KYC calls.",
-    dateOpened: "2024-11-12",
+    id: "CASE-001",
+    name: "Fake Job Offer Fraud",
+    description: "Phishing emails offering a remote job and asking for a refundable deposit over UPI.",
+    dateOpened: "2025-01-14",
     status: "Open",
-    investigators: ["Insp. R. Nair", "SI A. Kapoor"],
-    evidenceCount: 24,
-    riskLevel: "High",
-  },
-  {
-    id: "CASE-2402",
-    name: "Phantom Recruiter",
-    description: "Job-fraud phishing operation impersonating a Fortune 500 HR department.",
-    dateOpened: "2024-12-03",
-    status: "Under Review",
-    investigators: ["Insp. M. Sharma"],
-    evidenceCount: 17,
+    investigators: ["R. Nair", "A. Kapoor"],
+    evidenceCount: 3,
     riskLevel: "Medium",
   },
   {
-    id: "CASE-2403",
-    name: "Deepfake Extortion",
-    description: "Sextortion using AI-generated video of victim; suspected foreign server.",
-    dateOpened: "2025-01-18",
-    status: "Open",
-    investigators: ["ACP V. Rao", "SI P. Mehta"],
-    evidenceCount: 9,
-    riskLevel: "High",
-  },
-  {
-    id: "CASE-2404",
+    id: "CASE-002",
     name: "Insider Data Leak",
-    description: "Suspected exfiltration of client PII via USB from finance desk.",
-    dateOpened: "2024-10-27",
+    description: "Suspected copying of client data to a USB drive from an office machine after hours.",
+    dateOpened: "2025-02-03",
     status: "Under Review",
-    investigators: ["Insp. D. Choudhury"],
-    evidenceCount: 12,
-    riskLevel: "Medium",
-  },
-  {
-    id: "CASE-2405",
-    name: "Crypto Mule Network",
-    description: "Layered crypto transfers used to launder proceeds from OTP fraud.",
-    dateOpened: "2025-02-05",
-    status: "Open",
-    investigators: ["SI A. Kapoor", "Insp. R. Nair"],
-    evidenceCount: 31,
+    investigators: ["M. Sharma"],
+    evidenceCount: 3,
     riskLevel: "High",
-  },
-  {
-    id: "CASE-2399",
-    name: "Ghost Domain",
-    description: "Phishing kit hosted on lookalike banking domain.",
-    dateOpened: "2024-08-14",
-    status: "Closed",
-    investigators: ["Insp. M. Sharma"],
-    evidenceCount: 6,
-    riskLevel: "Low",
   },
 ];
 
@@ -102,14 +62,12 @@ const hash = (seed: string) =>
   }).join("");
 
 export const evidence: Evidence[] = [
-  { id: "EV-1001", caseId: "CASE-2401", name: "cctv_atm_lobby.mp4", type: "Video", sizeMB: 214, sha256: hash("cctv_atm_lobby"), uploadedAt: "2024-11-13 09:22", uploader: "Insp. R. Nair", verified: true },
-  { id: "EV-1002", caseId: "CASE-2401", name: "whatsapp_chat_victim.png", type: "Chat", sizeMB: 2.1, sha256: hash("whatsapp_chat"), uploadedAt: "2024-11-13 10:04", uploader: "SI A. Kapoor", verified: true },
-  { id: "EV-1003", caseId: "CASE-2401", name: "bank_statement_nov.pdf", type: "Financial", sizeMB: 0.8, sha256: hash("bank_statement_nov"), uploadedAt: "2024-11-14 14:11", uploader: "SI A. Kapoor", verified: true },
-  { id: "EV-1004", caseId: "CASE-2402", name: "offer_letter_scam.pdf", type: "Document", sizeMB: 1.4, sha256: hash("offer_letter"), uploadedAt: "2024-12-04 11:30", uploader: "Insp. M. Sharma", verified: true },
-  { id: "EV-1005", caseId: "CASE-2403", name: "extortion_video.mp4", type: "Video", sizeMB: 88, sha256: hash("extortion_video"), uploadedAt: "2025-01-19 02:47", uploader: "ACP V. Rao", verified: false },
-  { id: "EV-1006", caseId: "CASE-2404", name: "usb_event_logs.evtx", type: "Log", sizeMB: 12, sha256: hash("usb_event_logs"), uploadedAt: "2024-10-28 08:15", uploader: "Insp. D. Choudhury", verified: true },
-  { id: "EV-1007", caseId: "CASE-2405", name: "wallet_txns.csv", type: "Financial", sizeMB: 0.3, sha256: hash("wallet_txns"), uploadedAt: "2025-02-06 16:42", uploader: "SI A. Kapoor", verified: true },
-  { id: "EV-1008", caseId: "CASE-2401", name: "suspect_selfie.jpg", type: "Image", sizeMB: 3.2, sha256: hash("suspect_selfie"), uploadedAt: "2024-11-15 09:00", uploader: "Insp. R. Nair", verified: true },
+  { id: "EV-001", caseId: "CASE-001", name: "offer_letter.pdf", type: "Document", sizeMB: 1.4, sha256: hash("offer_letter"), uploadedAt: "2025-01-15 11:30", uploader: "R. Nair", verified: true },
+  { id: "EV-002", caseId: "CASE-001", name: "whatsapp_chat.png", type: "Chat", sizeMB: 2.1, sha256: hash("whatsapp_chat"), uploadedAt: "2025-01-15 12:04", uploader: "A. Kapoor", verified: true },
+  { id: "EV-003", caseId: "CASE-001", name: "bank_statement.pdf", type: "Financial", sizeMB: 0.8, sha256: hash("bank_statement"), uploadedAt: "2025-01-16 14:11", uploader: "A. Kapoor", verified: true },
+  { id: "EV-004", caseId: "CASE-002", name: "usb_event_logs.evtx", type: "Log", sizeMB: 12, sha256: hash("usb_event_logs"), uploadedAt: "2025-02-04 08:15", uploader: "M. Sharma", verified: true },
+  { id: "EV-005", caseId: "CASE-002", name: "wallet_txns.csv", type: "Financial", sizeMB: 0.3, sha256: hash("wallet_txns"), uploadedAt: "2025-02-04 16:42", uploader: "M. Sharma", verified: false },
+  { id: "EV-006", caseId: "CASE-002", name: "desk_photo.jpg", type: "Image", sizeMB: 3.2, sha256: hash("desk_photo"), uploadedAt: "2025-02-05 09:00", uploader: "P. Desai", verified: true },
 ];
 
 export interface Transaction {
@@ -186,14 +144,12 @@ export interface CustodyEntry {
 }
 
 export const custody: CustodyEntry[] = [
-  { id: "C-1", when: "2024-11-13 09:22", actor: "Insp. R. Nair", action: "Uploaded", target: "EV-1001 cctv_atm_lobby.mp4" },
-  { id: "C-2", when: "2024-11-13 10:04", actor: "SI A. Kapoor", action: "Uploaded", target: "EV-1002 whatsapp_chat_victim.png" },
-  { id: "C-3", when: "2024-11-13 10:40", actor: "Analyst K. Bose", action: "Ran OCR", target: "EV-1002" },
-  { id: "C-4", when: "2024-11-14 14:11", actor: "SI A. Kapoor", action: "Uploaded", target: "EV-1003 bank_statement_nov.pdf" },
-  { id: "C-5", when: "2024-11-14 15:02", actor: "Analyst K. Bose", action: "Ran Financial Anomaly Scan", target: "EV-1003" },
-  { id: "C-6", when: "2024-11-15 09:00", actor: "Insp. R. Nair", action: "Uploaded", target: "EV-1008 suspect_selfie.jpg" },
-  { id: "C-7", when: "2024-11-15 09:41", actor: "ACP V. Rao", action: "Viewed", target: "CASE-2401 dossier" },
-  { id: "C-8", when: "2024-11-16 12:18", actor: "Insp. R. Nair", action: "Exported PDF Report", target: "CASE-2401" },
+  { id: "C-1", when: "2025-01-15 11:30", actor: "R. Nair", action: "Uploaded", target: "EV-001 offer_letter.pdf" },
+  { id: "C-2", when: "2025-01-15 12:04", actor: "A. Kapoor", action: "Uploaded", target: "EV-002 whatsapp_chat.png" },
+  { id: "C-3", when: "2025-01-16 14:11", actor: "A. Kapoor", action: "Uploaded", target: "EV-003 bank_statement.pdf" },
+  { id: "C-4", when: "2025-01-16 15:02", actor: "P. Desai", action: "Ran financial check", target: "EV-003" },
+  { id: "C-5", when: "2025-02-04 08:15", actor: "M. Sharma", action: "Uploaded", target: "EV-004 usb_event_logs.evtx" },
+  { id: "C-6", when: "2025-02-05 09:41", actor: "R. Nair", action: "Viewed", target: "CASE-002 details" },
 ];
 
 export interface OcrResult {
@@ -225,7 +181,7 @@ export const sampleDeepfake: DeepfakeResult = {
 export const stats = {
   totalCases: cases.length,
   openCases: cases.filter((c) => c.status === "Open").length,
-  pendingAnalysis: 7,
-  highRiskFlags: 12,
+  pendingAnalysis: 2,
+  highRiskFlags: 4,
   evidenceItems: evidence.length,
 };

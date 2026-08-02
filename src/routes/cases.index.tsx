@@ -58,7 +58,7 @@ function CasesList() {
               onSubmit={(e) => {
                 e.preventDefault();
                 const fd = new FormData(e.currentTarget as HTMLFormElement);
-                const id = `CASE-${2406 + rows.length - seedCases.length}`;
+                const id = `CASE-${String(rows.length + 1).padStart(3, "0")}`;
                 setRows([
                   {
                     id,
@@ -78,7 +78,7 @@ function CasesList() {
             >
               <div className="space-y-2"><Label htmlFor="name">Case name</Label><Input id="name" name="name" required /></div>
               <div className="space-y-2"><Label htmlFor="desc">Description</Label><Textarea id="desc" name="desc" rows={3} /></div>
-              <div className="space-y-2"><Label htmlFor="inv">Assigned investigator</Label><Input id="inv" name="inv" placeholder="e.g. Insp. R. Nair" /></div>
+              <div className="space-y-2"><Label htmlFor="inv">Assigned investigator</Label><Input id="inv" name="inv" placeholder="e.g. R. Nair" /></div>
               <DialogFooter><Button type="submit">Open case</Button></DialogFooter>
             </form>
           </DialogContent>
