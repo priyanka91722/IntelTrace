@@ -21,7 +21,7 @@ export const Route = createFileRoute("/login")({
 
 function Login() {
   const navigate = useNavigate();
-  const [role, setRole] = useState("lead");
+  const [role, setRole] = useState("investigator");
   return (
     <div className="min-h-screen w-full flex flex-col bg-background text-foreground">
       <div className="bg-sidebar text-sidebar-foreground px-6 py-4 flex items-center gap-2">
@@ -59,7 +59,7 @@ function Login() {
                 <RadioGroup value={role} onValueChange={setRole} className="grid grid-cols-3 gap-2">
                   {[
                     { v: "admin", l: "Admin" },
-                    { v: "lead", l: "Lead Investigator" },
+                    { v: "investigator", l: "Investigator" },
                     { v: "viewer", l: "Viewer" },
                   ].map((r) => (
                     <Label
@@ -81,7 +81,7 @@ function Login() {
         </Card>
       </div>
       <div className="px-6 py-3 text-center text-xs text-muted-foreground">
-        Mini Project by Team 04 — R. Nair, A. Kapoor, M. Sharma, P. Desai
+        IntelTrace © 2026
       </div>
     </div>
   );

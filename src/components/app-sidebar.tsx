@@ -73,7 +73,7 @@ export function AppSidebar() {
           <Shield className="h-5 w-5" />
           <div className="flex flex-col">
             <span className="text-sm font-semibold">IntelTrace</span>
-            <span className="text-xs opacity-70">Mini Project v0.4</span>
+            <span className="text-xs opacity-70">v0.4</span>
           </div>
         </Link>
       </SidebarHeader>
