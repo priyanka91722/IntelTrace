@@ -135,15 +135,14 @@ function RootComponent() {
                 <SidebarTrigger />
                 <div className="text-sm font-medium">IntelTrace</div>
                 <div className="ml-auto text-xs text-muted-foreground">
-                  Logged in as: R. Nair (Lead Investigator)
+                  Logged in as: R. Nair
                 </div>
               </header>
               <main className="flex-1 p-6">
                 <Outlet />
               </main>
               <footer className="border-t border-border px-6 py-3 text-xs text-muted-foreground">
-                IntelTrace — Mini Project (Semester VI). Team: R. Nair, A. Kapoor, M. Sharma, P. Desai.
-                Demo build using sample data only.
+                IntelTrace © 2026 — demo build using sample data only.
               </footer>
             </div>
           </div>
