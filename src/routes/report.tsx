@@ -100,7 +100,7 @@ function Report() {
             <div className="mt-8 grid grid-cols-2 gap-4 text-xs">
               <div>
                 <div className="border-t border-border pt-1">Signature of Investigating Officer</div>
-                <div className="mt-1">Insp. R. Nair · Badge #4471</div>
+                <div className="mt-1">R. Nair</div>
               </div>
               <div>
                 <div className="border-t border-border pt-1">Date & Place</div>
