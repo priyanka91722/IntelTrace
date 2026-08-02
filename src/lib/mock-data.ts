@@ -28,7 +28,7 @@ export const cases: Case[] = [
     dateOpened: "2025-01-14",
     status: "Open",
     investigators: ["R. Nair", "A. Kapoor"],
-    evidenceCount: 3,
+    evidenceCount: 1,
     riskLevel: "Medium",
   },
   {
@@ -38,7 +38,7 @@ export const cases: Case[] = [
     dateOpened: "2025-02-03",
     status: "Under Review",
     investigators: ["M. Sharma"],
-    evidenceCount: 3,
+    evidenceCount: 1,
     riskLevel: "High",
   },
 ];
@@ -63,11 +63,7 @@ const hash = (seed: string) =>
 
 export const evidence: Evidence[] = [
   { id: "EV-001", caseId: "CASE-001", name: "offer_letter.pdf", type: "Document", sizeMB: 1.4, sha256: hash("offer_letter"), uploadedAt: "2025-01-15 11:30", uploader: "R. Nair", verified: true },
-  { id: "EV-002", caseId: "CASE-001", name: "whatsapp_chat.png", type: "Chat", sizeMB: 2.1, sha256: hash("whatsapp_chat"), uploadedAt: "2025-01-15 12:04", uploader: "A. Kapoor", verified: true },
-  { id: "EV-003", caseId: "CASE-001", name: "bank_statement.pdf", type: "Financial", sizeMB: 0.8, sha256: hash("bank_statement"), uploadedAt: "2025-01-16 14:11", uploader: "A. Kapoor", verified: true },
-  { id: "EV-004", caseId: "CASE-002", name: "usb_event_logs.evtx", type: "Log", sizeMB: 12, sha256: hash("usb_event_logs"), uploadedAt: "2025-02-04 08:15", uploader: "M. Sharma", verified: true },
-  { id: "EV-005", caseId: "CASE-002", name: "wallet_txns.csv", type: "Financial", sizeMB: 0.3, sha256: hash("wallet_txns"), uploadedAt: "2025-02-04 16:42", uploader: "M. Sharma", verified: false },
-  { id: "EV-006", caseId: "CASE-002", name: "desk_photo.jpg", type: "Image", sizeMB: 3.2, sha256: hash("desk_photo"), uploadedAt: "2025-02-05 09:00", uploader: "P. Desai", verified: true },
+  { id: "EV-002", caseId: "CASE-002", name: "usb_event_logs.evtx", type: "Log", sizeMB: 12, sha256: hash("usb_event_logs"), uploadedAt: "2025-02-04 08:15", uploader: "M. Sharma", verified: false },
 ];
 
 export interface Transaction {
@@ -82,16 +78,8 @@ export interface Transaction {
 }
 
 export const transactions: Transaction[] = [
-  { id: "TXN-90011", timestamp: "2025-02-05 02:14", amount: 100000, sender: "A. Sharma", receiver: "Mule-01", type: "IMPS", riskScore: 92, flags: ["Round amount", "Late-night"] },
-  { id: "TXN-90012", timestamp: "2025-02-05 02:16", amount: 100000, sender: "A. Sharma", receiver: "Mule-02", type: "IMPS", riskScore: 95, flags: ["Rapid succession", "Duplicate"] },
-  { id: "TXN-90013", timestamp: "2025-02-05 02:18", amount: 100000, sender: "A. Sharma", receiver: "Mule-03", type: "IMPS", riskScore: 96, flags: ["Rapid succession", "Duplicate"] },
-  { id: "TXN-90014", timestamp: "2025-02-05 09:20", amount: 4899, sender: "A. Sharma", receiver: "Amazon Pay", type: "UPI", riskScore: 8, flags: [] },
-  { id: "TXN-90015", timestamp: "2025-02-05 11:03", amount: 250000, sender: "Mule-01", receiver: "CryptoEx-Wallet-9F", type: "Crypto", riskScore: 88, flags: ["Layering", "High value"] },
-  { id: "TXN-90016", timestamp: "2025-02-05 13:45", amount: 1200, sender: "A. Sharma", receiver: "Blinkit", type: "UPI", riskScore: 3, flags: [] },
-  { id: "TXN-90017", timestamp: "2025-02-05 23:58", amount: 50000, sender: "Mule-02", receiver: "Mule-04", type: "NEFT", riskScore: 74, flags: ["Late-night", "Layering"] },
-  { id: "TXN-90018", timestamp: "2025-02-06 01:05", amount: 50000, sender: "Mule-04", receiver: "CryptoEx-Wallet-9F", type: "Crypto", riskScore: 81, flags: ["Late-night", "Layering"] },
-  { id: "TXN-90019", timestamp: "2025-02-06 14:20", amount: 899, sender: "A. Sharma", receiver: "Zomato", type: "UPI", riskScore: 2, flags: [] },
-  { id: "TXN-90020", timestamp: "2025-02-06 22:10", amount: 45000, sender: "A. Sharma", receiver: "Mule-05", type: "IMPS", riskScore: 58, flags: ["Unusual receiver"] },
+  { id: "TXN-001", timestamp: "2025-02-05 02:14", amount: 100000, sender: "A. Sharma", receiver: "Unknown-01", type: "IMPS", riskScore: 92, flags: ["Round amount", "Late-night"] },
+  { id: "TXN-002", timestamp: "2025-02-05 13:45", amount: 1200, sender: "A. Sharma", receiver: "Blinkit", type: "UPI", riskScore: 3, flags: [] },
 ];
 
 export interface LogEvent {
@@ -104,16 +92,8 @@ export interface LogEvent {
 }
 
 export const logs: LogEvent[] = [
-  { id: "L-501", user: "j.doe", timestamp: "2024-10-27 02:10", event: "Logon", target: "FIN-WKS-04", riskScore: 78 },
-  { id: "L-502", user: "j.doe", timestamp: "2024-10-27 02:12", event: "USB-Connect", target: "Kingston 32GB", riskScore: 88 },
-  { id: "L-503", user: "j.doe", timestamp: "2024-10-27 02:15", event: "File-Access", target: "\\shares\\clients\\PII.xlsx", riskScore: 92 },
-  { id: "L-504", user: "j.doe", timestamp: "2024-10-27 02:22", event: "File-Access", target: "\\shares\\clients\\payroll.csv", riskScore: 89 },
-  { id: "L-505", user: "j.doe", timestamp: "2024-10-27 02:31", event: "Logoff", target: "FIN-WKS-04", riskScore: 40 },
-  { id: "L-506", user: "m.rao", timestamp: "2024-10-27 09:02", event: "Logon", target: "FIN-WKS-02", riskScore: 5 },
-  { id: "L-507", user: "s.iyer", timestamp: "2024-10-27 09:08", event: "Failed-Logon", target: "ADMIN-DC01", riskScore: 65 },
-  { id: "L-508", user: "s.iyer", timestamp: "2024-10-27 09:09", event: "Failed-Logon", target: "ADMIN-DC01", riskScore: 72 },
-  { id: "L-509", user: "s.iyer", timestamp: "2024-10-27 09:10", event: "Admin-Escalation", target: "ADMIN-DC01", riskScore: 90 },
-  { id: "L-510", user: "m.rao", timestamp: "2024-10-27 18:44", event: "Logoff", target: "FIN-WKS-02", riskScore: 3 },
+  { id: "L-001", user: "j.doe", timestamp: "2025-02-04 02:12", event: "USB-Connect", target: "Kingston 32GB", riskScore: 88 },
+  { id: "L-002", user: "m.rao", timestamp: "2025-02-04 09:02", event: "Logon", target: "FIN-WKS-02", riskScore: 5 },
 ];
 
 export interface TimelineItem {
@@ -145,11 +125,7 @@ export interface CustodyEntry {
 
 export const custody: CustodyEntry[] = [
   { id: "C-1", when: "2025-01-15 11:30", actor: "R. Nair", action: "Uploaded", target: "EV-001 offer_letter.pdf" },
-  { id: "C-2", when: "2025-01-15 12:04", actor: "A. Kapoor", action: "Uploaded", target: "EV-002 whatsapp_chat.png" },
-  { id: "C-3", when: "2025-01-16 14:11", actor: "A. Kapoor", action: "Uploaded", target: "EV-003 bank_statement.pdf" },
-  { id: "C-4", when: "2025-01-16 15:02", actor: "P. Desai", action: "Ran financial check", target: "EV-003" },
-  { id: "C-5", when: "2025-02-04 08:15", actor: "M. Sharma", action: "Uploaded", target: "EV-004 usb_event_logs.evtx" },
-  { id: "C-6", when: "2025-02-05 09:41", actor: "R. Nair", action: "Viewed", target: "CASE-002 details" },
+  { id: "C-2", when: "2025-02-04 08:15", actor: "M. Sharma", action: "Uploaded", target: "EV-002 usb_event_logs.evtx" },
 ];
 
 export interface OcrResult {
@@ -181,7 +157,7 @@ export const sampleDeepfake: DeepfakeResult = {
 export const stats = {
   totalCases: cases.length,
   openCases: cases.filter((c) => c.status === "Open").length,
-  pendingAnalysis: 2,
-  highRiskFlags: 4,
+  pendingAnalysis: 1,
+  highRiskFlags: 2,
   evidenceItems: evidence.length,
 };
