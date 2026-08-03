@@ -144,22 +144,6 @@ function Dashboard() {
         </CardContent>
       </Card>
 
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-base">Project Status</CardTitle>
-          <CardDescription>What we finished in the 4 weeks and what is still left</CardDescription>
-        </CardHeader>
-        <CardContent className="text-sm">
-          <ul className="space-y-1">
-            <li>Week 1 — Login page, sidebar layout, sample data file (done)</li>
-            <li>Week 2 — Case list, case details, evidence upload with SHA-256 (done)</li>
-            <li>Week 3 — Hash check, chain of custody, log analysis (done)</li>
-            <li>Week 4 — Financial anomaly, timeline, report + 65B certificate (done)</li>
-            <li className="text-muted-foreground">Pending — OCR / chat analysis and deepfake check (not started)</li>
-            <li className="text-muted-foreground">Pending — real backend and database (currently sample data only)</li>
-          </ul>
-        </CardContent>
-      </Card>
     </div>
   );
 }
