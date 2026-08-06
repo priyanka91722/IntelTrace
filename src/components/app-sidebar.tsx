@@ -1,4 +1,5 @@
 import { Link, useRouterState } from "@tanstack/react-router";
+import { cases } from "@/lib/mock-data";
 import {
   LayoutDashboard,
   FolderKanban,
@@ -27,38 +28,9 @@ import {
   SidebarFooter,
 } from "@/components/ui/sidebar";
 
-const groups = [
-  {
-    label: "Main",
-    items: [
-      { title: "Dashboard", url: "/", icon: LayoutDashboard },
-      { title: "Cases", url: "/cases", icon: FolderKanban },
-    ],
-  },
-  {
-    label: "Evidence",
-    items: [
-      { title: "Upload Evidence", url: "/evidence/upload", icon: Upload },
-      { title: "Hash Check", url: "/evidence/integrity", icon: ShieldCheck },
-      { title: "Chain of Custody", url: "/custody", icon: ScrollText },
-    ],
-  },
-  {
-    label: "Analysis Modules",
-    items: [
-      { title: "Financial Anomaly", url: "/analysis/financial", icon: Banknote },
-      { title: "Log Analysis", url: "/analysis/logs", icon: Activity },
-      { title: "OCR / Chat", url: "/analysis/ocr", icon: ScanText },
-      { title: "Deepfake Check", url: "/analysis/deepfake", icon: Video },
-    ],
-  },
-  {
-    label: "Output",
-    items: [
-      { title: "Timeline", url: "/timeline", icon: Clock },
-      { title: "Report", url: "/report", icon: FileText },
-    ],
-  },
+const mainItems = [
+  { title: "Dashboard", url: "/", icon: LayoutDashboard },
+  { title: "Cases", url: "/cases", icon: FolderKanban },
 ];
 
 export function AppSidebar() {
@@ -78,25 +50,41 @@ export function AppSidebar() {
         </Link>
       </SidebarHeader>
       <SidebarContent>
-        {groups.map((g) => (
-          <SidebarGroup key={g.label}>
-            <SidebarGroupLabel>{g.label}</SidebarGroupLabel>
-            <SidebarGroupContent>
-              <SidebarMenu>
-                {g.items.map((item) => (
-                  <SidebarMenuItem key={item.url}>
-                    <SidebarMenuButton asChild isActive={isActive(item.url)}>
-                      <Link to={item.url} className="flex items-center gap-2">
-                        <item.icon className="h-4 w-4" />
-                        <span>{item.title}</span>
-                      </Link>
-                    </SidebarMenuButton>
-                  </SidebarMenuItem>
-                ))}
-              </SidebarMenu>
-            </SidebarGroupContent>
-          </SidebarGroup>
-        ))}
+        <SidebarGroup>
+          <SidebarGroupLabel>Main</SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              {mainItems.map((item) => (
+                <SidebarMenuItem key={item.url}>
+                  <SidebarMenuButton asChild isActive={isActive(item.url)}>
+                    <Link to={item.url} className="flex items-center gap-2">
+                      <item.icon className="h-4 w-4" />
+                      <span>{item.title}</span>
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+
+        <SidebarGroup>
+          <SidebarGroupLabel>Open Cases</SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              {cases.map((c) => (
+                <SidebarMenuItem key={c.id}>
+                  <SidebarMenuButton asChild isActive={pathname.startsWith(`/cases/${c.id}`)}>
+                    <Link to="/cases/$caseId" params={{ caseId: c.id }} className="flex items-center gap-2">
+                      <FolderKanban className="h-4 w-4" />
+                      <span className="truncate">{c.id} · {c.name}</span>
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
       </SidebarContent>
       <SidebarFooter>
         <SidebarMenu>
