@@ -15,6 +15,8 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as CasesIndexRouteImport } from './routes/cases.index'
 import { Route as CasesCaseIdRouteImport } from './routes/cases.$caseId'
 import { Route as CasesCaseIdIndexRouteImport } from './routes/cases.$caseId.index'
+import { Route as CasesCaseIdIntegrityRouteImport } from './routes/cases.$caseId.integrity'
+import { Route as CasesCaseIdEvidenceRouteImport } from './routes/cases.$caseId.evidence'
 
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
@@ -46,6 +48,16 @@ const CasesCaseIdIndexRoute = CasesCaseIdIndexRouteImport.update({
   path: '/',
   getParentRoute: () => CasesCaseIdRoute,
 } as any)
+const CasesCaseIdIntegrityRoute = CasesCaseIdIntegrityRouteImport.update({
+  id: '/integrity',
+  path: '/integrity',
+  getParentRoute: () => CasesCaseIdRoute,
+} as any)
+const CasesCaseIdEvidenceRoute = CasesCaseIdEvidenceRouteImport.update({
+  id: '/evidence',
+  path: '/evidence',
+  getParentRoute: () => CasesCaseIdRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -53,12 +65,16 @@ export interface FileRoutesByFullPath {
   '/login': typeof LoginRoute
   '/cases/$caseId': typeof CasesCaseIdRouteWithChildren
   '/cases/': typeof CasesIndexRoute
+  '/cases/$caseId/evidence': typeof CasesCaseIdEvidenceRoute
+  '/cases/$caseId/integrity': typeof CasesCaseIdIntegrityRoute
   '/cases/$caseId/': typeof CasesCaseIdIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/login': typeof LoginRoute
   '/cases': typeof CasesIndexRoute
+  '/cases/$caseId/evidence': typeof CasesCaseIdEvidenceRoute
+  '/cases/$caseId/integrity': typeof CasesCaseIdIntegrityRoute
   '/cases/$caseId': typeof CasesCaseIdIndexRoute
 }
 export interface FileRoutesById {
@@ -68,6 +84,8 @@ export interface FileRoutesById {
   '/login': typeof LoginRoute
   '/cases/$caseId': typeof CasesCaseIdRouteWithChildren
   '/cases/': typeof CasesIndexRoute
+  '/cases/$caseId/evidence': typeof CasesCaseIdEvidenceRoute
+  '/cases/$caseId/integrity': typeof CasesCaseIdIntegrityRoute
   '/cases/$caseId/': typeof CasesCaseIdIndexRoute
 }
 export interface FileRouteTypes {
@@ -78,9 +96,17 @@ export interface FileRouteTypes {
     | '/login'
     | '/cases/$caseId'
     | '/cases/'
+    | '/cases/$caseId/evidence'
+    | '/cases/$caseId/integrity'
     | '/cases/$caseId/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/login' | '/cases' | '/cases/$caseId'
+  to:
+    | '/'
+    | '/login'
+    | '/cases'
+    | '/cases/$caseId/evidence'
+    | '/cases/$caseId/integrity'
+    | '/cases/$caseId'
   id:
     | '__root__'
     | '/'
@@ -88,6 +114,8 @@ export interface FileRouteTypes {
     | '/login'
     | '/cases/$caseId'
     | '/cases/'
+    | '/cases/$caseId/evidence'
+    | '/cases/$caseId/integrity'
     | '/cases/$caseId/'
   fileRoutesById: FileRoutesById
 }
@@ -141,14 +169,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CasesCaseIdIndexRouteImport
       parentRoute: typeof CasesCaseIdRoute
     }
+    '/cases/$caseId/integrity': {
+      id: '/cases/$caseId/integrity'
+      path: '/integrity'
+      fullPath: '/cases/$caseId/integrity'
+      preLoaderRoute: typeof CasesCaseIdIntegrityRouteImport
+      parentRoute: typeof CasesCaseIdRoute
+    }
+    '/cases/$caseId/evidence': {
+      id: '/cases/$caseId/evidence'
+      path: '/evidence'
+      fullPath: '/cases/$caseId/evidence'
+      preLoaderRoute: typeof CasesCaseIdEvidenceRouteImport
+      parentRoute: typeof CasesCaseIdRoute
+    }
   }
 }
 
 interface CasesCaseIdRouteChildren {
+  CasesCaseIdEvidenceRoute: typeof CasesCaseIdEvidenceRoute
+  CasesCaseIdIntegrityRoute: typeof CasesCaseIdIntegrityRoute
   CasesCaseIdIndexRoute: typeof CasesCaseIdIndexRoute
 }
 
 const CasesCaseIdRouteChildren: CasesCaseIdRouteChildren = {
+  CasesCaseIdEvidenceRoute: CasesCaseIdEvidenceRoute,
+  CasesCaseIdIntegrityRoute: CasesCaseIdIntegrityRoute,
   CasesCaseIdIndexRoute: CasesCaseIdIndexRoute,
 }
 
