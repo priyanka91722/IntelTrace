@@ -4,30 +4,23 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Badge } from "@/components/ui/badge";
 import { custody } from "@/lib/mock-data";
 
-export const Route = createFileRoute("/custody")({
-  head: () => ({
-    meta: [
-      { title: "Chain of Custody — IntelTrace" },
-      { name: "description", content: "Immutable audit log of every action taken on every piece of evidence." },
-      { property: "og:title", content: "Chain of Custody" },
-      { property: "og:description", content: "Immutable audit log of evidence actions." },
-    ],
-  }),
-  component: Custody,
-});
+export const Route = createFileRoute("/cases/$caseId/custody")({ component: Custody });
 
 function Custody() {
+  const { caseId } = Route.useParams();
+  const rows = custody.filter((c) => c.caseId === caseId);
+
   return (
-    <div className="space-y-6">
+    <div className="space-y-5">
       <div>
-        <h1 className="text-xl font-semibold">Chain of Custody Log</h1>
-        <p className="text-sm text-muted-foreground">Every ingest, view, analysis, and export is recorded and hash-anchored.</p>
+        <h2 className="text-base font-semibold">Chain of Custody</h2>
+        <p className="text-sm text-muted-foreground">Every action taken on the evidence of this case.</p>
       </div>
 
       <Card>
         <CardHeader>
-          <CardTitle className="text-base">Audit Trail</CardTitle>
-          <CardDescription>Immutable · appended in insertion order</CardDescription>
+          <CardTitle className="text-base">Audit trail</CardTitle>
+          <CardDescription>{rows.length} entry(s) for {caseId}</CardDescription>
         </CardHeader>
         <CardContent className="p-0">
           <Table>
@@ -41,7 +34,7 @@ function Custody() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {custody.map((c) => (
+              {rows.map((c) => (
                 <TableRow key={c.id}>
                   <TableCell className="font-mono text-xs">{c.id}</TableCell>
                   <TableCell className="text-muted-foreground">{c.when}</TableCell>

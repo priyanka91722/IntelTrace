@@ -4,38 +4,29 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { cases, evidence, riskColor } from "@/lib/mock-data";
+import { getCase, evidence, riskColor } from "@/lib/mock-data";
 import { Download, FileSignature, ShieldCheck } from "lucide-react";
 import { toast } from "sonner";
 
-export const Route = createFileRoute("/report")({
-  head: () => ({
-    meta: [
-      { title: "Forensic Report — IntelTrace" },
-      { name: "description", content: "Compile findings, hash verification, timeline, and Section 65B certificate." },
-      { property: "og:title", content: "Forensic Report Generator" },
-      { property: "og:description", content: "Compile findings and generate Section 65B certificate." },
-    ],
-  }),
-  component: Report,
-});
+export const Route = createFileRoute("/cases/$caseId/report")({ component: Report });
 
 function Report() {
-  const c = cases[0];
-  const items = evidence.filter((e) => e.caseId === c.id);
+  const { caseId } = Route.useParams();
+  const c = getCase(caseId)!;
+  const items = evidence.filter((e) => e.caseId === caseId);
   const [open, setOpen] = useState(false);
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-5">
       <div className="flex items-end justify-between flex-wrap gap-2">
         <div>
-          <h1 className="text-xl font-semibold">Forensic Report</h1>
-          <p className="text-sm text-muted-foreground">Basic summary of a case with its evidence and hash values.</p>
+          <h2 className="text-base font-semibold">Report</h2>
+          <p className="text-sm text-muted-foreground">Summary of this case with its evidence and hash values.</p>
         </div>
         <div className="flex gap-2">
-          <Button variant="outline" onClick={() => setOpen(true)}><FileSignature className="mr-1 h-4 w-4" /> Generate Section 65B</Button>
-          <Button onClick={() => toast.success("Report exported as intelltrace_" + c.id + ".pdf")}>
-            <Download className="mr-1 h-4 w-4" /> Download PDF Report
+          <Button variant="outline" onClick={() => setOpen(true)}><FileSignature className="mr-1 h-4 w-4" /> Section 65B</Button>
+          <Button onClick={() => toast.success(`Report exported as inteltrace_${c.id}.pdf`)}>
+            <Download className="mr-1 h-4 w-4" /> Download PDF
           </Button>
         </div>
       </div>
@@ -69,10 +60,10 @@ function Report() {
 
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent className="max-w-2xl">
-          <DialogHeader><DialogTitle>Section 65B Certificate (Indian Evidence Act)</DialogTitle></DialogHeader>
+          <DialogHeader><DialogTitle>Section 65B Certificate</DialogTitle></DialogHeader>
           <div className="rounded-md border border-border bg-muted/30 p-5 text-sm font-serif leading-relaxed max-h-[60vh] overflow-auto">
             <p className="text-center font-semibold">Certificate under Section 65B(4)</p>
-            <p className="mt-4">I, <b>R. Nair</b>, hereby certify in relation to case <b>{c.id} — {c.name}</b> that:</p>
+            <p className="mt-4">I, <b>{c.investigators[0]}</b>, hereby certify in relation to case <b>{c.id} — {c.name}</b> that:</p>
             <ol className="list-decimal list-inside space-y-2 mt-3">
               <li>The electronic records were produced using the IntelTrace system, which was working normally at the time.</li>
               <li>The SHA-256 hash values below verify the integrity of each item:
@@ -83,19 +74,17 @@ function Report() {
             </ol>
             <div className="mt-8 grid grid-cols-2 gap-4 text-xs">
               <div>
-                <div className="border-t border-border pt-1">Signature of Investigating Officer</div>
-                <div className="mt-1">R. Nair</div>
+                <div className="border-t border-border pt-1">Signature</div>
+                <div className="mt-1">{c.investigators[0]}</div>
               </div>
               <div>
-                <div className="border-t border-border pt-1">Date & Place</div>
-                <div className="mt-1">{new Date().toISOString().slice(0, 10)} · Cyber Cell HQ</div>
+                <div className="border-t border-border pt-1">Date</div>
+                <div className="mt-1">{new Date().toISOString().slice(0, 10)}</div>
               </div>
             </div>
           </div>
           <div className="flex justify-end">
-            <Button onClick={() => { setOpen(false); toast.success("Certificate exported"); }}>
-              <Download className="mr-1 h-4 w-4" /> Download Certificate
-            </Button>
+            <Button onClick={() => { setOpen(false); toast.success("Certificate generated"); }}>Done</Button>
           </div>
         </DialogContent>
       </Dialog>

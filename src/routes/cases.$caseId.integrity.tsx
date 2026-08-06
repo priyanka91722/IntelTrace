@@ -8,27 +8,18 @@ import { evidence } from "@/lib/mock-data";
 import { ShieldCheck, ShieldAlert, RefreshCw } from "lucide-react";
 import { toast } from "sonner";
 
-export const Route = createFileRoute("/evidence/integrity")({
-  head: () => ({
-    meta: [
-      { title: "Evidence Integrity — IntelTrace" },
-      { name: "description", content: "SHA-256 verification status for every ingested evidence item." },
-      { property: "og:title", content: "Evidence Integrity" },
-      { property: "og:description", content: "SHA-256 verification of every evidence item." },
-    ],
-  }),
-  component: Integrity,
-});
+export const Route = createFileRoute("/cases/$caseId/integrity")({ component: Integrity });
 
 function Integrity() {
-  const [rows, setRows] = useState(evidence);
+  const { caseId } = Route.useParams();
+  const [rows, setRows] = useState(evidence.filter((e) => e.caseId === caseId));
   const verified = rows.filter((r) => r.verified).length;
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-5">
       <div>
-        <h1 className="text-xl font-semibold">Evidence Integrity</h1>
-        <p className="text-sm text-muted-foreground">Cryptographic verification ensures no evidence has been altered post-ingest.</p>
+        <h2 className="text-base font-semibold">Hash Check</h2>
+        <p className="text-sm text-muted-foreground">Compares the stored SHA-256 of each file in this case with a fresh one.</p>
       </div>
 
       <div className="grid gap-4 md:grid-cols-3">
@@ -39,8 +30,8 @@ function Integrity() {
 
       <Card>
         <CardHeader>
-          <CardTitle className="text-base">Hash Verification Ledger</CardTitle>
-          <CardDescription>Re-run verification to compare stored hash against a fresh compute</CardDescription>
+          <CardTitle className="text-base">Verification list</CardTitle>
+          <CardDescription>Files attached to {caseId}</CardDescription>
         </CardHeader>
         <CardContent className="p-0">
           <Table>
@@ -48,7 +39,6 @@ function Integrity() {
               <TableRow>
                 <TableHead>Evidence</TableHead>
                 <TableHead>Uploader</TableHead>
-                <TableHead>Timestamp</TableHead>
                 <TableHead>SHA-256</TableHead>
                 <TableHead>Status</TableHead>
                 <TableHead className="text-right">Action</TableHead>
@@ -59,10 +49,9 @@ function Integrity() {
                 <TableRow key={e.id}>
                   <TableCell>
                     <div className="font-medium">{e.name}</div>
-                    <div className="text-xs text-muted-foreground font-mono">{e.id} · {e.caseId}</div>
+                    <div className="text-xs text-muted-foreground font-mono">{e.id}</div>
                   </TableCell>
                   <TableCell className="text-muted-foreground">{e.uploader}</TableCell>
-                  <TableCell className="text-muted-foreground">{e.uploadedAt}</TableCell>
                   <TableCell className="font-mono text-[10px] truncate max-w-[200px]">{e.sha256}</TableCell>
                   <TableCell>
                     {e.verified ? (
@@ -72,15 +61,8 @@ function Integrity() {
                     )}
                   </TableCell>
                   <TableCell className="text-right">
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      onClick={() => {
-                        setRows((r) => r.map((x) => x.id === e.id ? { ...x, verified: true } : x));
-                        toast.success(`${e.id} re-verified · hash matches original`);
-                      }}
-                    >
-                      <RefreshCw className="h-3 w-3 mr-1" /> Re-verify
+                    <Button variant="ghost" size="sm" onClick={() => { setRows((r) => r.map((x) => x.id === e.id ? { ...x, verified: true } : x)); toast.success(`${e.id} re-checked · hash matches`); }}>
+                      <RefreshCw className="h-3 w-3 mr-1" /> Re-check
                     </Button>
                   </TableCell>
                 </TableRow>
