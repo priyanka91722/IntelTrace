@@ -108,6 +108,8 @@ export interface TimelineItem {
 }
 
 export const timeline: TimelineItem[] = [
+  { caseId: "CASE-001", time: "10:20", label: "Email Received", detail: "Job offer mail from hr-globalcorp@mail.com", type: "chat", risk: "Medium" },
+  { caseId: "CASE-001", time: "11:05", label: "UPI Payment", detail: "₹4,999 → hr.verify@okaxis", type: "financial", risk: "High" },
   { caseId: "CASE-002", time: "02:10", label: "User Logon", detail: "j.doe → FIN-WKS-04", type: "auth", risk: "High" },
   { caseId: "CASE-002", time: "02:12", label: "USB Connected", detail: "Kingston 32GB (unregistered)", type: "device", risk: "High" },
   { caseId: "CASE-002", time: "02:15", label: "File Accessed", detail: "\\shares\\clients\\PII.xlsx", type: "file", risk: "High" },
