@@ -9,56 +9,20 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as TimelineRouteImport } from './routes/timeline'
-import { Route as ReportRouteImport } from './routes/report'
 import { Route as LoginRouteImport } from './routes/login'
-import { Route as EvidenceRouteImport } from './routes/evidence'
-import { Route as CustodyRouteImport } from './routes/custody'
 import { Route as CasesRouteImport } from './routes/cases'
-import { Route as AnalysisRouteImport } from './routes/analysis'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as CasesIndexRouteImport } from './routes/cases.index'
-import { Route as EvidenceUploadRouteImport } from './routes/evidence.upload'
-import { Route as EvidenceIntegrityRouteImport } from './routes/evidence.integrity'
 import { Route as CasesCaseIdRouteImport } from './routes/cases.$caseId'
-import { Route as AnalysisOcrRouteImport } from './routes/analysis.ocr'
-import { Route as AnalysisLogsRouteImport } from './routes/analysis.logs'
-import { Route as AnalysisFinancialRouteImport } from './routes/analysis.financial'
-import { Route as AnalysisDeepfakeRouteImport } from './routes/analysis.deepfake'
 
-const TimelineRoute = TimelineRouteImport.update({
-  id: '/timeline',
-  path: '/timeline',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ReportRoute = ReportRouteImport.update({
-  id: '/report',
-  path: '/report',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
   path: '/login',
   getParentRoute: () => rootRouteImport,
 } as any)
-const EvidenceRoute = EvidenceRouteImport.update({
-  id: '/evidence',
-  path: '/evidence',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const CustodyRoute = CustodyRouteImport.update({
-  id: '/custody',
-  path: '/custody',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const CasesRoute = CasesRouteImport.update({
   id: '/cases',
   path: '/cases',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AnalysisRoute = AnalysisRouteImport.update({
-  id: '/analysis',
-  path: '/analysis',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -71,179 +35,49 @@ const CasesIndexRoute = CasesIndexRouteImport.update({
   path: '/',
   getParentRoute: () => CasesRoute,
 } as any)
-const EvidenceUploadRoute = EvidenceUploadRouteImport.update({
-  id: '/upload',
-  path: '/upload',
-  getParentRoute: () => EvidenceRoute,
-} as any)
-const EvidenceIntegrityRoute = EvidenceIntegrityRouteImport.update({
-  id: '/integrity',
-  path: '/integrity',
-  getParentRoute: () => EvidenceRoute,
-} as any)
 const CasesCaseIdRoute = CasesCaseIdRouteImport.update({
   id: '/$caseId',
   path: '/$caseId',
   getParentRoute: () => CasesRoute,
 } as any)
-const AnalysisOcrRoute = AnalysisOcrRouteImport.update({
-  id: '/ocr',
-  path: '/ocr',
-  getParentRoute: () => AnalysisRoute,
-} as any)
-const AnalysisLogsRoute = AnalysisLogsRouteImport.update({
-  id: '/logs',
-  path: '/logs',
-  getParentRoute: () => AnalysisRoute,
-} as any)
-const AnalysisFinancialRoute = AnalysisFinancialRouteImport.update({
-  id: '/financial',
-  path: '/financial',
-  getParentRoute: () => AnalysisRoute,
-} as any)
-const AnalysisDeepfakeRoute = AnalysisDeepfakeRouteImport.update({
-  id: '/deepfake',
-  path: '/deepfake',
-  getParentRoute: () => AnalysisRoute,
-} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/analysis': typeof AnalysisRouteWithChildren
   '/cases': typeof CasesRouteWithChildren
-  '/custody': typeof CustodyRoute
-  '/evidence': typeof EvidenceRouteWithChildren
   '/login': typeof LoginRoute
-  '/report': typeof ReportRoute
-  '/timeline': typeof TimelineRoute
-  '/analysis/deepfake': typeof AnalysisDeepfakeRoute
-  '/analysis/financial': typeof AnalysisFinancialRoute
-  '/analysis/logs': typeof AnalysisLogsRoute
-  '/analysis/ocr': typeof AnalysisOcrRoute
   '/cases/$caseId': typeof CasesCaseIdRoute
-  '/evidence/integrity': typeof EvidenceIntegrityRoute
-  '/evidence/upload': typeof EvidenceUploadRoute
   '/cases/': typeof CasesIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/analysis': typeof AnalysisRouteWithChildren
-  '/custody': typeof CustodyRoute
-  '/evidence': typeof EvidenceRouteWithChildren
   '/login': typeof LoginRoute
-  '/report': typeof ReportRoute
-  '/timeline': typeof TimelineRoute
-  '/analysis/deepfake': typeof AnalysisDeepfakeRoute
-  '/analysis/financial': typeof AnalysisFinancialRoute
-  '/analysis/logs': typeof AnalysisLogsRoute
-  '/analysis/ocr': typeof AnalysisOcrRoute
   '/cases/$caseId': typeof CasesCaseIdRoute
-  '/evidence/integrity': typeof EvidenceIntegrityRoute
-  '/evidence/upload': typeof EvidenceUploadRoute
   '/cases': typeof CasesIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/analysis': typeof AnalysisRouteWithChildren
   '/cases': typeof CasesRouteWithChildren
-  '/custody': typeof CustodyRoute
-  '/evidence': typeof EvidenceRouteWithChildren
   '/login': typeof LoginRoute
-  '/report': typeof ReportRoute
-  '/timeline': typeof TimelineRoute
-  '/analysis/deepfake': typeof AnalysisDeepfakeRoute
-  '/analysis/financial': typeof AnalysisFinancialRoute
-  '/analysis/logs': typeof AnalysisLogsRoute
-  '/analysis/ocr': typeof AnalysisOcrRoute
   '/cases/$caseId': typeof CasesCaseIdRoute
-  '/evidence/integrity': typeof EvidenceIntegrityRoute
-  '/evidence/upload': typeof EvidenceUploadRoute
   '/cases/': typeof CasesIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths:
-    | '/'
-    | '/analysis'
-    | '/cases'
-    | '/custody'
-    | '/evidence'
-    | '/login'
-    | '/report'
-    | '/timeline'
-    | '/analysis/deepfake'
-    | '/analysis/financial'
-    | '/analysis/logs'
-    | '/analysis/ocr'
-    | '/cases/$caseId'
-    | '/evidence/integrity'
-    | '/evidence/upload'
-    | '/cases/'
+  fullPaths: '/' | '/cases' | '/login' | '/cases/$caseId' | '/cases/'
   fileRoutesByTo: FileRoutesByTo
-  to:
-    | '/'
-    | '/analysis'
-    | '/custody'
-    | '/evidence'
-    | '/login'
-    | '/report'
-    | '/timeline'
-    | '/analysis/deepfake'
-    | '/analysis/financial'
-    | '/analysis/logs'
-    | '/analysis/ocr'
-    | '/cases/$caseId'
-    | '/evidence/integrity'
-    | '/evidence/upload'
-    | '/cases'
-  id:
-    | '__root__'
-    | '/'
-    | '/analysis'
-    | '/cases'
-    | '/custody'
-    | '/evidence'
-    | '/login'
-    | '/report'
-    | '/timeline'
-    | '/analysis/deepfake'
-    | '/analysis/financial'
-    | '/analysis/logs'
-    | '/analysis/ocr'
-    | '/cases/$caseId'
-    | '/evidence/integrity'
-    | '/evidence/upload'
-    | '/cases/'
+  to: '/' | '/login' | '/cases/$caseId' | '/cases'
+  id: '__root__' | '/' | '/cases' | '/login' | '/cases/$caseId' | '/cases/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  AnalysisRoute: typeof AnalysisRouteWithChildren
   CasesRoute: typeof CasesRouteWithChildren
-  CustodyRoute: typeof CustodyRoute
-  EvidenceRoute: typeof EvidenceRouteWithChildren
   LoginRoute: typeof LoginRoute
-  ReportRoute: typeof ReportRoute
-  TimelineRoute: typeof TimelineRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/timeline': {
-      id: '/timeline'
-      path: '/timeline'
-      fullPath: '/timeline'
-      preLoaderRoute: typeof TimelineRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/report': {
-      id: '/report'
-      path: '/report'
-      fullPath: '/report'
-      preLoaderRoute: typeof ReportRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/login': {
       id: '/login'
       path: '/login'
@@ -251,32 +85,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LoginRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/evidence': {
-      id: '/evidence'
-      path: '/evidence'
-      fullPath: '/evidence'
-      preLoaderRoute: typeof EvidenceRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/custody': {
-      id: '/custody'
-      path: '/custody'
-      fullPath: '/custody'
-      preLoaderRoute: typeof CustodyRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/cases': {
       id: '/cases'
       path: '/cases'
       fullPath: '/cases'
       preLoaderRoute: typeof CasesRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/analysis': {
-      id: '/analysis'
-      path: '/analysis'
-      fullPath: '/analysis'
-      preLoaderRoute: typeof AnalysisRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -293,20 +106,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CasesIndexRouteImport
       parentRoute: typeof CasesRoute
     }
-    '/evidence/upload': {
-      id: '/evidence/upload'
-      path: '/upload'
-      fullPath: '/evidence/upload'
-      preLoaderRoute: typeof EvidenceUploadRouteImport
-      parentRoute: typeof EvidenceRoute
-    }
-    '/evidence/integrity': {
-      id: '/evidence/integrity'
-      path: '/integrity'
-      fullPath: '/evidence/integrity'
-      preLoaderRoute: typeof EvidenceIntegrityRouteImport
-      parentRoute: typeof EvidenceRoute
-    }
     '/cases/$caseId': {
       id: '/cases/$caseId'
       path: '/$caseId'
@@ -314,54 +113,8 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CasesCaseIdRouteImport
       parentRoute: typeof CasesRoute
     }
-    '/analysis/ocr': {
-      id: '/analysis/ocr'
-      path: '/ocr'
-      fullPath: '/analysis/ocr'
-      preLoaderRoute: typeof AnalysisOcrRouteImport
-      parentRoute: typeof AnalysisRoute
-    }
-    '/analysis/logs': {
-      id: '/analysis/logs'
-      path: '/logs'
-      fullPath: '/analysis/logs'
-      preLoaderRoute: typeof AnalysisLogsRouteImport
-      parentRoute: typeof AnalysisRoute
-    }
-    '/analysis/financial': {
-      id: '/analysis/financial'
-      path: '/financial'
-      fullPath: '/analysis/financial'
-      preLoaderRoute: typeof AnalysisFinancialRouteImport
-      parentRoute: typeof AnalysisRoute
-    }
-    '/analysis/deepfake': {
-      id: '/analysis/deepfake'
-      path: '/deepfake'
-      fullPath: '/analysis/deepfake'
-      preLoaderRoute: typeof AnalysisDeepfakeRouteImport
-      parentRoute: typeof AnalysisRoute
-    }
   }
 }
-
-interface AnalysisRouteChildren {
-  AnalysisDeepfakeRoute: typeof AnalysisDeepfakeRoute
-  AnalysisFinancialRoute: typeof AnalysisFinancialRoute
-  AnalysisLogsRoute: typeof AnalysisLogsRoute
-  AnalysisOcrRoute: typeof AnalysisOcrRoute
-}
-
-const AnalysisRouteChildren: AnalysisRouteChildren = {
-  AnalysisDeepfakeRoute: AnalysisDeepfakeRoute,
-  AnalysisFinancialRoute: AnalysisFinancialRoute,
-  AnalysisLogsRoute: AnalysisLogsRoute,
-  AnalysisOcrRoute: AnalysisOcrRoute,
-}
-
-const AnalysisRouteWithChildren = AnalysisRoute._addFileChildren(
-  AnalysisRouteChildren,
-)
 
 interface CasesRouteChildren {
   CasesCaseIdRoute: typeof CasesCaseIdRoute
@@ -375,40 +128,11 @@ const CasesRouteChildren: CasesRouteChildren = {
 
 const CasesRouteWithChildren = CasesRoute._addFileChildren(CasesRouteChildren)
 
-interface EvidenceRouteChildren {
-  EvidenceIntegrityRoute: typeof EvidenceIntegrityRoute
-  EvidenceUploadRoute: typeof EvidenceUploadRoute
-}
-
-const EvidenceRouteChildren: EvidenceRouteChildren = {
-  EvidenceIntegrityRoute: EvidenceIntegrityRoute,
-  EvidenceUploadRoute: EvidenceUploadRoute,
-}
-
-const EvidenceRouteWithChildren = EvidenceRoute._addFileChildren(
-  EvidenceRouteChildren,
-)
-
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  AnalysisRoute: AnalysisRouteWithChildren,
   CasesRoute: CasesRouteWithChildren,
-  CustodyRoute: CustodyRoute,
-  EvidenceRoute: EvidenceRouteWithChildren,
   LoginRoute: LoginRoute,
-  ReportRoute: ReportRoute,
-  TimelineRoute: TimelineRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}

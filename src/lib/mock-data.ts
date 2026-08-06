@@ -167,3 +167,5 @@ export const stats = {
   highRiskFlags: 2,
   evidenceItems: evidence.length,
 };
+
+export const getCase = (id: string) => cases.find((c) => c.id === id);
