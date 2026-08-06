@@ -14,6 +14,7 @@ import { Route as CasesRouteImport } from './routes/cases'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as CasesIndexRouteImport } from './routes/cases.index'
 import { Route as CasesCaseIdRouteImport } from './routes/cases.$caseId'
+import { Route as CasesCaseIdIndexRouteImport } from './routes/cases.$caseId.index'
 
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
@@ -40,34 +41,54 @@ const CasesCaseIdRoute = CasesCaseIdRouteImport.update({
   path: '/$caseId',
   getParentRoute: () => CasesRoute,
 } as any)
+const CasesCaseIdIndexRoute = CasesCaseIdIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => CasesCaseIdRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/cases': typeof CasesRouteWithChildren
   '/login': typeof LoginRoute
-  '/cases/$caseId': typeof CasesCaseIdRoute
+  '/cases/$caseId': typeof CasesCaseIdRouteWithChildren
   '/cases/': typeof CasesIndexRoute
+  '/cases/$caseId/': typeof CasesCaseIdIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/login': typeof LoginRoute
-  '/cases/$caseId': typeof CasesCaseIdRoute
   '/cases': typeof CasesIndexRoute
+  '/cases/$caseId': typeof CasesCaseIdIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/cases': typeof CasesRouteWithChildren
   '/login': typeof LoginRoute
-  '/cases/$caseId': typeof CasesCaseIdRoute
+  '/cases/$caseId': typeof CasesCaseIdRouteWithChildren
   '/cases/': typeof CasesIndexRoute
+  '/cases/$caseId/': typeof CasesCaseIdIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/cases' | '/login' | '/cases/$caseId' | '/cases/'
+  fullPaths:
+    | '/'
+    | '/cases'
+    | '/login'
+    | '/cases/$caseId'
+    | '/cases/'
+    | '/cases/$caseId/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/login' | '/cases/$caseId' | '/cases'
-  id: '__root__' | '/' | '/cases' | '/login' | '/cases/$caseId' | '/cases/'
+  to: '/' | '/login' | '/cases' | '/cases/$caseId'
+  id:
+    | '__root__'
+    | '/'
+    | '/cases'
+    | '/login'
+    | '/cases/$caseId'
+    | '/cases/'
+    | '/cases/$caseId/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -113,16 +134,35 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CasesCaseIdRouteImport
       parentRoute: typeof CasesRoute
     }
+    '/cases/$caseId/': {
+      id: '/cases/$caseId/'
+      path: '/'
+      fullPath: '/cases/$caseId/'
+      preLoaderRoute: typeof CasesCaseIdIndexRouteImport
+      parentRoute: typeof CasesCaseIdRoute
+    }
   }
 }
 
+interface CasesCaseIdRouteChildren {
+  CasesCaseIdIndexRoute: typeof CasesCaseIdIndexRoute
+}
+
+const CasesCaseIdRouteChildren: CasesCaseIdRouteChildren = {
+  CasesCaseIdIndexRoute: CasesCaseIdIndexRoute,
+}
+
+const CasesCaseIdRouteWithChildren = CasesCaseIdRoute._addFileChildren(
+  CasesCaseIdRouteChildren,
+)
+
 interface CasesRouteChildren {
-  CasesCaseIdRoute: typeof CasesCaseIdRoute
+  CasesCaseIdRoute: typeof CasesCaseIdRouteWithChildren
   CasesIndexRoute: typeof CasesIndexRoute
 }
 
 const CasesRouteChildren: CasesRouteChildren = {
-  CasesCaseIdRoute: CasesCaseIdRoute,
+  CasesCaseIdRoute: CasesCaseIdRouteWithChildren,
   CasesIndexRoute: CasesIndexRoute,
 }
 
