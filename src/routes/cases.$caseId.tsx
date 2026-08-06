@@ -1,16 +1,13 @@
-import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { createFileRoute, Link, Outlet, notFound, useRouterState } from "@tanstack/react-router";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { cases, evidence, riskColor, type Evidence } from "@/lib/mock-data";
-import { ArrowLeft, FileText, Upload, Clock, ShieldCheck } from "lucide-react";
+import { getCase, riskColor } from "@/lib/mock-data";
+import { ArrowLeft } from "lucide-react";
 
 export const Route = createFileRoute("/cases/$caseId")({
   loader: ({ params }) => {
-    const c = cases.find((x) => x.id === params.caseId);
+    const c = getCase(params.caseId);
     if (!c) throw notFound();
-    return { c, items: evidence.filter((e) => e.caseId === c.id) };
+    return { c };
   },
   head: ({ loaderData }) => ({
     meta: [
@@ -20,81 +17,64 @@ export const Route = createFileRoute("/cases/$caseId")({
       { property: "og:description", content: loaderData?.c.description ?? "Case detail" },
     ],
   }),
-  component: CaseDetail,
+  component: CaseLayout,
   notFoundComponent: () => <div className="text-sm text-muted-foreground">Case not found.</div>,
 });
 
-function CaseDetail() {
-  const { c, items } = Route.useLoaderData();
+const tabs = [
+  { to: "/cases/$caseId", label: "Overview", exact: true },
+  { to: "/cases/$caseId/evidence", label: "Evidence" },
+  { to: "/cases/$caseId/integrity", label: "Hash Check" },
+  { to: "/cases/$caseId/financial", label: "Financial" },
+  { to: "/cases/$caseId/logs", label: "Logs" },
+  { to: "/cases/$caseId/ocr", label: "OCR / Chat" },
+  { to: "/cases/$caseId/deepfake", label: "Deepfake" },
+  { to: "/cases/$caseId/timeline", label: "Timeline" },
+  { to: "/cases/$caseId/custody", label: "Custody" },
+  { to: "/cases/$caseId/report", label: "Report" },
+] as const;
+
+function CaseLayout() {
+  const { c } = Route.useLoaderData();
+  const pathname = useRouterState({ select: (r) => r.location.pathname });
+  const base = `/cases/${c.id}`;
+
   return (
-    <div className="space-y-6">
+    <div className="space-y-5">
       <div className="flex items-center gap-2 text-sm text-muted-foreground">
         <Link to="/cases" className="flex items-center gap-1 hover:text-primary"><ArrowLeft className="h-3 w-3" /> Cases</Link>
         <span>/</span>
         <span className="font-mono">{c.id}</span>
       </div>
 
-      <div className="flex items-start justify-between flex-wrap gap-3">
-        <div>
-          <h1 className="text-xl font-semibold">{c.name}</h1>
-          <p className="text-sm text-muted-foreground max-w-2xl">{c.description}</p>
-          <div className="mt-3 flex items-center gap-2">
-            <Badge variant="outline">{c.status}</Badge>
-            <Badge variant="outline" className={riskColor(c.riskLevel)}>{c.riskLevel} Risk</Badge>
-            <span className="text-xs text-muted-foreground">Opened {c.dateOpened}</span>
-          </div>
-        </div>
-        <div className="flex gap-2">
-          <Button variant="outline" asChild><Link to="/evidence/upload"><Upload className="mr-1 h-4 w-4" /> Add Evidence</Link></Button>
-          <Button variant="outline" asChild><Link to="/timeline"><Clock className="mr-1 h-4 w-4" /> Timeline</Link></Button>
-          <Button asChild><Link to="/report"><FileText className="mr-1 h-4 w-4" /> Generate Report</Link></Button>
+      <div>
+        <h1 className="text-xl font-semibold">{c.name}</h1>
+        <p className="text-sm text-muted-foreground max-w-2xl">{c.description}</p>
+        <div className="mt-2 flex items-center gap-2 flex-wrap">
+          <Badge variant="outline">{c.status}</Badge>
+          <Badge variant="outline" className={riskColor(c.riskLevel)}>{c.riskLevel} Risk</Badge>
+          <span className="text-xs text-muted-foreground">Opened {c.dateOpened}</span>
         </div>
       </div>
 
-      <div className="grid gap-4 md:grid-cols-3">
-        <Card><CardContent className="p-4"><div className="text-xs text-muted-foreground">Evidence items</div><div className="text-2xl font-semibold mt-1">{items.length}</div></CardContent></Card>
-        <Card><CardContent className="p-4"><div className="text-xs text-muted-foreground">Investigators</div><div className="text-sm mt-2">{c.investigators.join(", ")}</div></CardContent></Card>
-        <Card><CardContent className="p-4"><div className="text-xs text-muted-foreground">Integrity</div><div className="mt-2 flex items-center gap-2 text-sm"><ShieldCheck className="h-4 w-4 text-[color:var(--risk-low)]" /> {items.filter((i: Evidence) => i.verified).length}/{items.length} hash-verified</div></CardContent></Card>
+      <div className="flex gap-1 overflow-x-auto border-b border-border">
+        {tabs.map((t) => {
+          const url = t.to.replace("$caseId", c.id);
+          const active = "exact" in t && t.exact ? pathname === base || pathname === base + "/" : pathname.startsWith(url);
+          return (
+            <Link
+              key={t.label}
+              to={t.to}
+              params={{ caseId: c.id }}
+              className={`whitespace-nowrap px-3 py-2 text-sm border-b-2 -mb-px ${active ? "border-primary text-primary font-medium" : "border-transparent text-muted-foreground hover:text-foreground"}`}
+            >
+              {t.label}
+            </Link>
+          );
+        })}
       </div>
 
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-base">Evidence in this case</CardTitle>
-          <CardDescription>Items ingested and their integrity status</CardDescription>
-        </CardHeader>
-        <CardContent className="p-0">
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>ID</TableHead>
-                <TableHead>File</TableHead>
-                <TableHead>Type</TableHead>
-                <TableHead>Uploader</TableHead>
-                <TableHead>Uploaded</TableHead>
-                <TableHead>SHA-256</TableHead>
-                <TableHead>Status</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {items.map((e: Evidence) => (
-                <TableRow key={e.id}>
-                  <TableCell className="font-mono text-xs">{e.id}</TableCell>
-                  <TableCell className="font-medium">{e.name}</TableCell>
-                  <TableCell><Badge variant="outline">{e.type}</Badge></TableCell>
-                  <TableCell className="text-muted-foreground">{e.uploader}</TableCell>
-                  <TableCell className="text-muted-foreground">{e.uploadedAt}</TableCell>
-                  <TableCell className="font-mono text-[10px] truncate max-w-[220px]">{e.sha256}</TableCell>
-                  <TableCell>
-                    {e.verified
-                      ? <Badge variant="outline" className="text-[color:var(--risk-low)] border-[color:var(--risk-low)]/40 bg-[color:var(--risk-low)]/10">Verified</Badge>
-                      : <Badge variant="outline" className="text-[color:var(--risk-high)] border-[color:var(--risk-high)]/40 bg-[color:var(--risk-high)]/10">Tampered</Badge>}
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </CardContent>
-      </Card>
+      <Outlet />
     </div>
   );
 }
