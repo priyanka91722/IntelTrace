@@ -68,6 +68,7 @@ export const evidence: Evidence[] = [
 
 export interface Transaction {
   id: string;
+  caseId: string;
   timestamp: string;
   amount: number;
   sender: string;
@@ -78,12 +79,13 @@ export interface Transaction {
 }
 
 export const transactions: Transaction[] = [
-  { id: "TXN-001", timestamp: "2025-02-05 02:14", amount: 100000, sender: "A. Sharma", receiver: "Unknown-01", type: "IMPS", riskScore: 92, flags: ["Round amount", "Late-night"] },
-  { id: "TXN-002", timestamp: "2025-02-05 13:45", amount: 1200, sender: "A. Sharma", receiver: "Blinkit", type: "UPI", riskScore: 3, flags: [] },
+  { id: "TXN-001", caseId: "CASE-001", timestamp: "2025-02-05 02:14", amount: 100000, sender: "A. Sharma", receiver: "Unknown-01", type: "IMPS", riskScore: 92, flags: ["Round amount", "Late-night"] },
+  { id: "TXN-002", caseId: "CASE-001", timestamp: "2025-02-05 13:45", amount: 1200, sender: "A. Sharma", receiver: "Blinkit", type: "UPI", riskScore: 3, flags: [] },
 ];
 
 export interface LogEvent {
   id: string;
+  caseId: string;
   user: string;
   timestamp: string;
   event: "Logon" | "Logoff" | "USB-Connect" | "File-Access" | "Failed-Logon" | "Admin-Escalation";
@@ -92,11 +94,12 @@ export interface LogEvent {
 }
 
 export const logs: LogEvent[] = [
-  { id: "L-001", user: "j.doe", timestamp: "2025-02-04 02:12", event: "USB-Connect", target: "Kingston 32GB", riskScore: 88 },
-  { id: "L-002", user: "m.rao", timestamp: "2025-02-04 09:02", event: "Logon", target: "FIN-WKS-02", riskScore: 5 },
+  { id: "L-001", caseId: "CASE-002", user: "j.doe", timestamp: "2025-02-04 02:12", event: "USB-Connect", target: "Kingston 32GB", riskScore: 88 },
+  { id: "L-002", caseId: "CASE-002", user: "m.rao", timestamp: "2025-02-04 09:02", event: "Logon", target: "FIN-WKS-02", riskScore: 5 },
 ];
 
 export interface TimelineItem {
+  caseId: string;
   time: string;
   label: string;
   detail: string;
@@ -105,18 +108,19 @@ export interface TimelineItem {
 }
 
 export const timeline: TimelineItem[] = [
-  { time: "02:10", label: "User Logon", detail: "j.doe → FIN-WKS-04", type: "auth", risk: "High" },
-  { time: "02:12", label: "USB Connected", detail: "Kingston 32GB (unregistered)", type: "device", risk: "High" },
-  { time: "02:15", label: "File Accessed", detail: "\\shares\\clients\\PII.xlsx", type: "file", risk: "High" },
-  { time: "02:16", label: "Bank Transfer", detail: "IMPS ₹1,00,000 → Mule-02", type: "financial", risk: "High" },
-  { time: "02:22", label: "File Accessed", detail: "\\shares\\clients\\payroll.csv", type: "file", risk: "High" },
-  { time: "02:31", label: "User Logoff", detail: "j.doe → FIN-WKS-04", type: "auth", risk: "Medium" },
-  { time: "09:47", label: "Chat Message", detail: "WhatsApp: 'send me the files'", type: "chat", risk: "Medium" },
-  { time: "11:03", label: "Crypto Transfer", detail: "₹2,50,000 → CryptoEx-Wallet-9F", type: "financial", risk: "High" },
+  { caseId: "CASE-002", time: "02:10", label: "User Logon", detail: "j.doe → FIN-WKS-04", type: "auth", risk: "High" },
+  { caseId: "CASE-002", time: "02:12", label: "USB Connected", detail: "Kingston 32GB (unregistered)", type: "device", risk: "High" },
+  { caseId: "CASE-002", time: "02:15", label: "File Accessed", detail: "\\shares\\clients\\PII.xlsx", type: "file", risk: "High" },
+  { caseId: "CASE-002", time: "02:16", label: "Bank Transfer", detail: "IMPS ₹1,00,000 → Mule-02", type: "financial", risk: "High" },
+  { caseId: "CASE-002", time: "02:22", label: "File Accessed", detail: "\\shares\\clients\\payroll.csv", type: "file", risk: "High" },
+  { caseId: "CASE-002", time: "02:31", label: "User Logoff", detail: "j.doe → FIN-WKS-04", type: "auth", risk: "Medium" },
+  { caseId: "CASE-002", time: "09:47", label: "Chat Message", detail: "WhatsApp: 'send me the files'", type: "chat", risk: "Medium" },
+  { caseId: "CASE-002", time: "11:03", label: "Crypto Transfer", detail: "₹2,50,000 → CryptoEx-Wallet-9F", type: "financial", risk: "High" },
 ];
 
 export interface CustodyEntry {
   id: string;
+  caseId: string;
   when: string;
   actor: string;
   action: string;
@@ -124,8 +128,8 @@ export interface CustodyEntry {
 }
 
 export const custody: CustodyEntry[] = [
-  { id: "C-1", when: "2025-01-15 11:30", actor: "R. Nair", action: "Uploaded", target: "EV-001 offer_letter.pdf" },
-  { id: "C-2", when: "2025-02-04 08:15", actor: "M. Sharma", action: "Uploaded", target: "EV-002 usb_event_logs.evtx" },
+  { id: "C-1", caseId: "CASE-001", when: "2025-01-15 11:30", actor: "R. Nair", action: "Uploaded", target: "EV-001 offer_letter.pdf" },
+  { id: "C-2", caseId: "CASE-002", when: "2025-02-04 08:15", actor: "M. Sharma", action: "Uploaded", target: "EV-002 usb_event_logs.evtx" },
 ];
 
 export interface OcrResult {
