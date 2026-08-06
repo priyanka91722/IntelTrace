@@ -15,8 +15,12 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as CasesIndexRouteImport } from './routes/cases.index'
 import { Route as CasesCaseIdRouteImport } from './routes/cases.$caseId'
 import { Route as CasesCaseIdIndexRouteImport } from './routes/cases.$caseId.index'
+import { Route as CasesCaseIdOcrRouteImport } from './routes/cases.$caseId.ocr'
+import { Route as CasesCaseIdLogsRouteImport } from './routes/cases.$caseId.logs'
 import { Route as CasesCaseIdIntegrityRouteImport } from './routes/cases.$caseId.integrity'
+import { Route as CasesCaseIdFinancialRouteImport } from './routes/cases.$caseId.financial'
 import { Route as CasesCaseIdEvidenceRouteImport } from './routes/cases.$caseId.evidence'
+import { Route as CasesCaseIdDeepfakeRouteImport } from './routes/cases.$caseId.deepfake'
 
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
@@ -48,14 +52,34 @@ const CasesCaseIdIndexRoute = CasesCaseIdIndexRouteImport.update({
   path: '/',
   getParentRoute: () => CasesCaseIdRoute,
 } as any)
+const CasesCaseIdOcrRoute = CasesCaseIdOcrRouteImport.update({
+  id: '/ocr',
+  path: '/ocr',
+  getParentRoute: () => CasesCaseIdRoute,
+} as any)
+const CasesCaseIdLogsRoute = CasesCaseIdLogsRouteImport.update({
+  id: '/logs',
+  path: '/logs',
+  getParentRoute: () => CasesCaseIdRoute,
+} as any)
 const CasesCaseIdIntegrityRoute = CasesCaseIdIntegrityRouteImport.update({
   id: '/integrity',
   path: '/integrity',
   getParentRoute: () => CasesCaseIdRoute,
 } as any)
+const CasesCaseIdFinancialRoute = CasesCaseIdFinancialRouteImport.update({
+  id: '/financial',
+  path: '/financial',
+  getParentRoute: () => CasesCaseIdRoute,
+} as any)
 const CasesCaseIdEvidenceRoute = CasesCaseIdEvidenceRouteImport.update({
   id: '/evidence',
   path: '/evidence',
+  getParentRoute: () => CasesCaseIdRoute,
+} as any)
+const CasesCaseIdDeepfakeRoute = CasesCaseIdDeepfakeRouteImport.update({
+  id: '/deepfake',
+  path: '/deepfake',
   getParentRoute: () => CasesCaseIdRoute,
 } as any)
 
@@ -65,16 +89,24 @@ export interface FileRoutesByFullPath {
   '/login': typeof LoginRoute
   '/cases/$caseId': typeof CasesCaseIdRouteWithChildren
   '/cases/': typeof CasesIndexRoute
+  '/cases/$caseId/deepfake': typeof CasesCaseIdDeepfakeRoute
   '/cases/$caseId/evidence': typeof CasesCaseIdEvidenceRoute
+  '/cases/$caseId/financial': typeof CasesCaseIdFinancialRoute
   '/cases/$caseId/integrity': typeof CasesCaseIdIntegrityRoute
+  '/cases/$caseId/logs': typeof CasesCaseIdLogsRoute
+  '/cases/$caseId/ocr': typeof CasesCaseIdOcrRoute
   '/cases/$caseId/': typeof CasesCaseIdIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/login': typeof LoginRoute
   '/cases': typeof CasesIndexRoute
+  '/cases/$caseId/deepfake': typeof CasesCaseIdDeepfakeRoute
   '/cases/$caseId/evidence': typeof CasesCaseIdEvidenceRoute
+  '/cases/$caseId/financial': typeof CasesCaseIdFinancialRoute
   '/cases/$caseId/integrity': typeof CasesCaseIdIntegrityRoute
+  '/cases/$caseId/logs': typeof CasesCaseIdLogsRoute
+  '/cases/$caseId/ocr': typeof CasesCaseIdOcrRoute
   '/cases/$caseId': typeof CasesCaseIdIndexRoute
 }
 export interface FileRoutesById {
@@ -84,8 +116,12 @@ export interface FileRoutesById {
   '/login': typeof LoginRoute
   '/cases/$caseId': typeof CasesCaseIdRouteWithChildren
   '/cases/': typeof CasesIndexRoute
+  '/cases/$caseId/deepfake': typeof CasesCaseIdDeepfakeRoute
   '/cases/$caseId/evidence': typeof CasesCaseIdEvidenceRoute
+  '/cases/$caseId/financial': typeof CasesCaseIdFinancialRoute
   '/cases/$caseId/integrity': typeof CasesCaseIdIntegrityRoute
+  '/cases/$caseId/logs': typeof CasesCaseIdLogsRoute
+  '/cases/$caseId/ocr': typeof CasesCaseIdOcrRoute
   '/cases/$caseId/': typeof CasesCaseIdIndexRoute
 }
 export interface FileRouteTypes {
@@ -96,16 +132,24 @@ export interface FileRouteTypes {
     | '/login'
     | '/cases/$caseId'
     | '/cases/'
+    | '/cases/$caseId/deepfake'
     | '/cases/$caseId/evidence'
+    | '/cases/$caseId/financial'
     | '/cases/$caseId/integrity'
+    | '/cases/$caseId/logs'
+    | '/cases/$caseId/ocr'
     | '/cases/$caseId/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/login'
     | '/cases'
+    | '/cases/$caseId/deepfake'
     | '/cases/$caseId/evidence'
+    | '/cases/$caseId/financial'
     | '/cases/$caseId/integrity'
+    | '/cases/$caseId/logs'
+    | '/cases/$caseId/ocr'
     | '/cases/$caseId'
   id:
     | '__root__'
@@ -114,8 +158,12 @@ export interface FileRouteTypes {
     | '/login'
     | '/cases/$caseId'
     | '/cases/'
+    | '/cases/$caseId/deepfake'
     | '/cases/$caseId/evidence'
+    | '/cases/$caseId/financial'
     | '/cases/$caseId/integrity'
+    | '/cases/$caseId/logs'
+    | '/cases/$caseId/ocr'
     | '/cases/$caseId/'
   fileRoutesById: FileRoutesById
 }
@@ -169,11 +217,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CasesCaseIdIndexRouteImport
       parentRoute: typeof CasesCaseIdRoute
     }
+    '/cases/$caseId/ocr': {
+      id: '/cases/$caseId/ocr'
+      path: '/ocr'
+      fullPath: '/cases/$caseId/ocr'
+      preLoaderRoute: typeof CasesCaseIdOcrRouteImport
+      parentRoute: typeof CasesCaseIdRoute
+    }
+    '/cases/$caseId/logs': {
+      id: '/cases/$caseId/logs'
+      path: '/logs'
+      fullPath: '/cases/$caseId/logs'
+      preLoaderRoute: typeof CasesCaseIdLogsRouteImport
+      parentRoute: typeof CasesCaseIdRoute
+    }
     '/cases/$caseId/integrity': {
       id: '/cases/$caseId/integrity'
       path: '/integrity'
       fullPath: '/cases/$caseId/integrity'
       preLoaderRoute: typeof CasesCaseIdIntegrityRouteImport
+      parentRoute: typeof CasesCaseIdRoute
+    }
+    '/cases/$caseId/financial': {
+      id: '/cases/$caseId/financial'
+      path: '/financial'
+      fullPath: '/cases/$caseId/financial'
+      preLoaderRoute: typeof CasesCaseIdFinancialRouteImport
       parentRoute: typeof CasesCaseIdRoute
     }
     '/cases/$caseId/evidence': {
@@ -183,18 +252,33 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CasesCaseIdEvidenceRouteImport
       parentRoute: typeof CasesCaseIdRoute
     }
+    '/cases/$caseId/deepfake': {
+      id: '/cases/$caseId/deepfake'
+      path: '/deepfake'
+      fullPath: '/cases/$caseId/deepfake'
+      preLoaderRoute: typeof CasesCaseIdDeepfakeRouteImport
+      parentRoute: typeof CasesCaseIdRoute
+    }
   }
 }
 
 interface CasesCaseIdRouteChildren {
+  CasesCaseIdDeepfakeRoute: typeof CasesCaseIdDeepfakeRoute
   CasesCaseIdEvidenceRoute: typeof CasesCaseIdEvidenceRoute
+  CasesCaseIdFinancialRoute: typeof CasesCaseIdFinancialRoute
   CasesCaseIdIntegrityRoute: typeof CasesCaseIdIntegrityRoute
+  CasesCaseIdLogsRoute: typeof CasesCaseIdLogsRoute
+  CasesCaseIdOcrRoute: typeof CasesCaseIdOcrRoute
   CasesCaseIdIndexRoute: typeof CasesCaseIdIndexRoute
 }
 
 const CasesCaseIdRouteChildren: CasesCaseIdRouteChildren = {
+  CasesCaseIdDeepfakeRoute: CasesCaseIdDeepfakeRoute,
   CasesCaseIdEvidenceRoute: CasesCaseIdEvidenceRoute,
+  CasesCaseIdFinancialRoute: CasesCaseIdFinancialRoute,
   CasesCaseIdIntegrityRoute: CasesCaseIdIntegrityRoute,
+  CasesCaseIdLogsRoute: CasesCaseIdLogsRoute,
+  CasesCaseIdOcrRoute: CasesCaseIdOcrRoute,
   CasesCaseIdIndexRoute: CasesCaseIdIndexRoute,
 }
 
