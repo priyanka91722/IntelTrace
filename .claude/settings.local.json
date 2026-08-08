@@ -1,0 +1,27 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python3 -c ' *)",
+      "Bash(ls -la \"C:/Users/admin/Downloads/ui-ux-pro-max-skill-main.zip\" 2>&1)",
+      "Bash(unzip -l \"ui-ux-pro-max-skill-main.zip\")",
+      "Bash(npx shadcn@latest init -t vite -b radix -y)",
+      "Bash(npx shadcn@latest init -t vite -b radix -p nova -y --no-rtl --no-pointer)",
+      "Bash(npm install *)",
+      "Bash(python3 smoke_test.py)",
+      "Bash(ls -la \"C:/Users/admin/Downloads/\" 2>&1 | grep -i \"merged\\\\|anomaly\")",
+      "Bash(pip show *)",
+      "Bash(./.venv/Scripts/python.exe -c \"import pandas; print\\(pandas.__version__\\)\")",
+      "Bash(./.venv/Scripts/python.exe -c ' *)",
+      "Bash(./.venv/Scripts/python.exe -c \"import fastapi\")",
+      "Bash(./.venv/Scripts/python.exe -c \"import uvicorn\")",
+      "Bash(INTELTRACE_ADMIN_PASSWORD=Admin@123 ./.venv/Scripts/python.exe smoke_test.py)",
+      "Bash(node scripts/validate_palette.js \"#f0564f,#e8a33d,#2dd4a0\" --mode dark)",
+      "Bash(npm run *)",
+      "Bash(INTELTRACE_ADMIN_PASSWORD=Admin@123 PYTHONIOENCODING=utf-8 ./.venv/Scripts/python.exe -c ' *)",
+      "Bash(INTELTRACE_ADMIN_PASSWORD=Admin@123 PYTHONIOENCODING=utf-8 ./.venv/Scripts/python.exe smoke_test.py)",
+      "Bash(npx shadcn@latest add dialog -y)",
+      "Bash(git init *)",
+      "Bash(git checkout *)"
+    ]
+  }
+}

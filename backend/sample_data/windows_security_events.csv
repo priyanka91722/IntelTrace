@@ -1,0 +1,16 @@
+Level,Date and Time,Source,Event ID,Task Category,User,Computer
+Information,07-07-2026 02:33:31,Microsoft Windows security auditing,4624,Logon,EMP001,LAPTOP-PDFEK5V5
+Information,07-07-2026 02:33:21,Microsoft Windows security auditing,4624,Logon,EMP001,LAPTOP-PDFEK5V5
+Information,07-07-2026 02:35:05,Microsoft Windows security auditing,6416,Device,EMP001,LAPTOP-PDFEK5V5
+Information,07-07-2026 02:40:31,Microsoft Windows security auditing,4663,File System,EMP001,LAPTOP-PDFEK5V5
+Information,07-07-2026 02:41:41,Microsoft Windows security auditing,4663,File System,EMP001,LAPTOP-PDFEK5V5
+Information,07-07-2026 02:45:50,Microsoft Windows security auditing,4660,File System,EMP001,LAPTOP-PDFEK5V5
+Information,07-07-2026 02:50:38,Microsoft Windows security auditing,4634,Logoff,EMP001,LAPTOP-PDFEK5V5
+Information,07-07-2026 09:15:57,Microsoft Windows security auditing,4624,Logon,EMP002,PC-3446
+Information,07-07-2026 12:25:51,Microsoft Windows security auditing,4663,File System,EMP002,PC-3446
+Information,07-07-2026 17:24:06,Microsoft Windows security auditing,4634,Logoff,EMP002,PC-3446
+Information,08-07-2026 09:22:50,Microsoft Windows security auditing,4624,Logon,EMP003,PC-4124
+Information,08-07-2026 11:19:50,Microsoft Windows security auditing,4663,File System,EMP003,PC-4124
+Information,08-07-2026 17:18:33,Microsoft Windows security auditing,4634,Logoff,EMP003,PC-4124
+Information,08-07-2026 09:17:20,Microsoft Windows security auditing,4624,Logon,EMP002,PC-3446
+Information,08-07-2026 17:16:32,Microsoft Windows security auditing,4634,Logoff,EMP002,PC-3446

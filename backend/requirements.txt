@@ -1,0 +1,19 @@
+fastapi>=0.110
+uvicorn[standard]>=0.29
+sqlalchemy>=2.0
+pyjwt>=2.8
+passlib>=1.7
+python-multipart>=0.0.9
+pandas>=2.0
+scikit-learn>=1.4
+numpy>=1.26
+opencv-python==4.10.0.84
+pillow>=10.0
+pytesseract>=0.3.10
+reportlab>=4.0
+pdfplumber>=0.11
+openpyxl>=3.1        # pandas .xlsx read support (services/xlsx_convert.py)
+python-dotenv>=1.0   # loads ../.env — see app/config.py
+# optional extras:
+# python-evtx        # direct .evtx parsing (otherwise export CSV from Event Viewer)
+# pymysql            # to use MySQL instead of SQLite

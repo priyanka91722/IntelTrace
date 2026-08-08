@@ -1,0 +1,11 @@
+2026-07-06T21:04:48.758623+00:00 LAPTOP-PDFEK5V5 systemd-logind[196]: New seat seat0.
+2026-07-06T21:05:15.848136+00:00 LAPTOP-PDFEK5V5 useradd[400]: new user: name=riyanka_havan, UID=1000, GID=1000, home=/home/riyanka_havan, shell=/bin/bash, from=/dev/pts/0
+2026-07-06T21:05:31.792045+00:00 LAPTOP-PDFEK5V5 passwd[413]: pam_unix(passwd:chauthtok): password changed for riyanka_havan
+2026-07-06T21:05:31.835368+00:00 LAPTOP-PDFEK5V5 usermod[433]: add 'riyanka_havan' to group 'sudo'
+2026-07-06T21:05:32.133177+00:00 LAPTOP-PDFEK5V5 login[448]: pam_unix(login:session): session opened for user riyanka_havan(uid=1000) by riyanka_havan(uid=0)
+2026-07-06T21:12:34.542351+00:00 LAPTOP-PDFEK5V5 login[293]: pam_unix(login:session): session opened for user riyanka_havan(uid=1000) by riyanka_havan(uid=0)
+2026-07-07T02:14:05.120001+00:00 LAPTOP-PDFEK5V5 sshd[512]: Accepted password for user1 from 103.27.86.14 port 51522 ssh2
+2026-07-07T02:20:11.220331+00:00 LAPTOP-PDFEK5V5 sshd[514]: Failed password for invalid user root from 103.27.86.14 port 51530 ssh2
+2026-07-07T02:31:07.001200+00:00 LAPTOP-PDFEK5V5 login[520]: pam_unix(login:session): session closed for user user1
+2026-07-07T09:15:32.000000+00:00 LAPTOP-PDFEK5V5 login[601]: pam_unix(login:session): session opened for user user1(uid=1001) by user1(uid=0)
+2026-07-07T17:44:01.000000+00:00 LAPTOP-PDFEK5V5 login[601]: pam_unix(login:session): session closed for user user1

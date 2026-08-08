@@ -1,0 +1,76 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+/* Only real light/dark toggle prevention: IntelTrace is single-theme
+   (always dark), so no .dark class is ever added — but shadcn's generated
+   primitives reference dark: utilities, so keep the variant defined
+   (it simply never matches, which is fine). */
+@custom-variant dark (&:is(.dark *));
+
+/* IntelTrace design tokens — "forensic console"
+   phosphor green on near-black, mono for anything evidentiary.
+   Flat/solid colors only, never gradients — see CLAUDE.md. */
+@theme {
+  --color-bg: #070c09;
+  --color-panel: #0e1613;
+  --color-panel-2: #0a100d;
+  --color-line: #1e2f24;
+  --color-text: #e7f5ec;
+  --color-muted: #7ea88f;
+
+  /* brand/primary accent — distinct hue from risk-status colors below */
+  --color-phosphor: #3cff7a;
+
+  /* risk-level semantics: fixed, never repurposed as decoration */
+  --color-amber: #e8a33d;
+  --color-green: #2dd4a0;
+  --color-red: #f0564f;
+
+  --font-mono: ui-monospace, "JetBrains Mono", "Cascadia Code", Consolas, "Courier New", monospace;
+  --font-sans: -apple-system, "Segoe UI", Inter, Roboto, "Helvetica Neue", sans-serif;
+
+  /* shadcn semantic aliases, pointed directly at the tokens above —
+     no :root/.dark indirection, single theme only */
+  --color-background: var(--color-bg);
+  --color-foreground: var(--color-text);
+  --color-card: var(--color-panel);
+  --color-card-foreground: var(--color-text);
+  --color-popover: var(--color-panel);
+  --color-popover-foreground: var(--color-text);
+  --color-primary: var(--color-phosphor);
+  --color-primary-foreground: #04140a;
+  --color-secondary: var(--color-panel-2);
+  --color-secondary-foreground: var(--color-text);
+  --color-muted-foreground: var(--color-muted);
+  --color-accent: var(--color-phosphor);
+  --color-accent-foreground: #04140a;
+  --color-destructive: var(--color-red);
+  --color-destructive-foreground: var(--color-text);
+  --color-border: var(--color-line);
+  --color-input: var(--color-line);
+  --color-ring: var(--color-phosphor);
+  --radius: 0.625rem;
+}
+
+* { box-sizing: border-box; }
+html, body, #root { margin: 0; min-height: 100vh; }
+
+@layer base {
+  body {
+    background: var(--color-bg);
+    color: var(--color-text);
+    font-family: var(--font-sans);
+    font-size: 14.5px;
+    line-height: 1.5;
+  }
+  ::selection { background: rgba(60, 255, 122, .25); }
+  a { color: var(--color-phosphor); text-decoration: none; }
+  button { font-family: var(--font-sans); }
+  * { @apply border-border outline-ring/50; }
+}
+
+.mono { font-family: var(--font-mono); }
+
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; }
+}

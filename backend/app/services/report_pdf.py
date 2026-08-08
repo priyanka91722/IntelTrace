@@ -1,0 +1,252 @@
+"""Automated forensic PDF report (ReportLab)."""
+from __future__ import annotations
+from datetime import datetime
+from pathlib import Path
+
+from reportlab.lib import colors
+from reportlab.lib.pagesizes import A4
+from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
+from reportlab.lib.units import mm
+from reportlab.platypus import (SimpleDocTemplate, Paragraph, Spacer, Table,
+                                TableStyle, PageBreak)
+from reportlab.graphics.shapes import Drawing, Rect, String
+
+from ..config import REPORTS_DIR
+
+INK = colors.HexColor("#101a2e")
+AMBER = colors.HexColor("#c98a1b")
+RED = colors.HexColor("#c0392b")
+GREEN = colors.HexColor("#1e8e5a")
+GREY = colors.HexColor("#777777")
+
+styles = getSampleStyleSheet()
+H1 = ParagraphStyle("H1x", parent=styles["Heading1"], textColor=INK, spaceAfter=6)
+H2 = ParagraphStyle("H2x", parent=styles["Heading2"], textColor=INK, spaceBefore=14, spaceAfter=4)
+BODY = ParagraphStyle("Bodyx", parent=styles["BodyText"], fontSize=9.5, leading=13)
+SMALL = ParagraphStyle("Smallx", parent=styles["BodyText"], fontSize=8, leading=10,
+                       textColor=colors.HexColor("#555555"))
+MONO = ParagraphStyle("Monox", parent=styles["BodyText"], fontName="Courier", fontSize=7.2, leading=9)
+
+# A case with thousands of flagged events (e.g. a bulk log-anomaly run)
+# would otherwise render a many-hundred-page timeline — cap to the
+# highest-risk subset and say so, rather than silently truncating or
+# producing an impractical PDF.
+MAX_TIMELINE_ROWS = 150
+MAX_FINDINGS_PER_MODULE = 25
+
+
+def _tbl(data, col_widths=None, header_bg=INK):
+    t = Table(data, colWidths=col_widths, repeatRows=1)
+    t.setStyle(TableStyle([
+        ("BACKGROUND", (0, 0), (-1, 0), header_bg),
+        ("TEXTCOLOR", (0, 0), (-1, 0), colors.white),
+        ("FONTNAME", (0, 0), (-1, 0), "Helvetica-Bold"),
+        ("FONTSIZE", (0, 0), (-1, -1), 8),
+        ("GRID", (0, 0), (-1, -1), 0.4, colors.HexColor("#c9d2e0")),
+        ("VALIGN", (0, 0), (-1, -1), "TOP"),
+        ("ROWBACKGROUNDS", (0, 1), (-1, -1), [colors.white, colors.HexColor("#f2f5fa")]),
+        ("LEFTPADDING", (0, 0), (-1, -1), 4), ("RIGHTPADDING", (0, 0), (-1, -1), 4),
+    ]))
+    return t
+
+
+def _p(text, style=BODY):
+    return Paragraph(str(text).replace("&", "&amp;").replace("<", "&lt;"), style)
+
+
+def _risk_bar(high: int, medium: int, low: int, width=170 * mm, height=7 * mm) -> Drawing:
+    """A simple proportional High/Medium/Low bar — the one visual element
+    in an otherwise all-table report, giving the risk mix at a glance
+    before the reader gets into the row-by-row detail."""
+    total = high + medium + low
+    d = Drawing(width, height + 4 * mm)
+    if total == 0:
+        return d
+    x = 0.0
+    for count, color, label in ((high, RED, "High"), (medium, AMBER, "Medium"), (low, GREEN, "Low")):
+        if count <= 0:
+            continue
+        w = width * (count / total)
+        d.add(Rect(x, 4 * mm, max(w - 0.6, 0), height, fillColor=color, strokeColor=None))
+        if w > 14 * mm:
+            d.add(String(x + 2, 4 * mm + height / 2 - 3,
+                         f"{label} {count} ({count / total * 100:.0f}%)",
+                         fontName="Helvetica-Bold", fontSize=7, fillColor=colors.white))
+        x += w
+    return d
+
+
+def _footer(case_number: str):
+    def _draw(canvas, doc):
+        canvas.saveState()
+        canvas.setFont("Helvetica", 7.5)
+        canvas.setFillColor(GREY)
+        canvas.drawString(16 * mm, 10 * mm, f"IntelTrace — {case_number}")
+        canvas.drawRightString(A4[0] - 16 * mm, 10 * mm, f"Page {doc.page}")
+        canvas.restoreState()
+    return _draw
+
+
+def generate(case, evidence_list, flagged_events, timeline, cross_links,
+             custody_entries, generated_by: str) -> Path:
+    out_path = REPORTS_DIR / f"{case.case_number}_Forensic_Report.pdf"
+    doc = SimpleDocTemplate(str(out_path), pagesize=A4,
+                            leftMargin=16 * mm, rightMargin=16 * mm,
+                            topMargin=18 * mm, bottomMargin=18 * mm)
+    story = []
+
+    # ---- aggregates computed once, used by both the summary and detail sections
+    by_module: dict[str, list] = {}
+    for fe in flagged_events:
+        by_module.setdefault(fe.module, []).append(fe)
+    high = sum(1 for fe in flagged_events if fe.risk_level == "High")
+    medium = sum(1 for fe in flagged_events if fe.risk_level == "Medium")
+    low = sum(1 for fe in flagged_events if fe.risk_level == "Low")
+
+    # ---- cover
+    story.append(Paragraph("IntelTrace — Digital Forensic Investigation Report", H1))
+    story.append(Spacer(1, 4))
+    cover = [["Case Number", case.case_number],
+             ["Case Name", case.name],
+             ["Description", case.description or "—"],
+             ["Date Opened", case.created_at.strftime("%d %b %Y %H:%M")],
+             ["Report Generated", datetime.now().strftime("%d %b %Y %H:%M")],
+             ["Generated By", generated_by],
+             ["Status", case.status.upper()]]
+    story.append(_tbl([[k, _p(v, BODY)] for k, v in cover], col_widths=[45 * mm, 120 * mm]))
+    story.append(Spacer(1, 8))
+    story.append(_p("<b>Disclaimer:</b> This report is produced by an automated triage "
+                    "assistant. It is intended to prioritise manual investigation and is "
+                    "not a certified forensic artifact under Section 65B of the Indian "
+                    "Evidence Act / BSA 2023 without independent validation.", SMALL))
+
+    # ---- at-a-glance summary: risk mix + module breakdown, before any
+    # row-by-row detail — mirrors the in-app Risk Summary view
+    story.append(Paragraph("1. Case Risk Summary", H2))
+    if flagged_events:
+        story.append(_risk_bar(high, medium, low))
+        story.append(Spacer(1, 4))
+        rows = [["Analysis Module", "Findings", "High", "Medium", "Low"]]
+        for module, events in sorted(by_module.items(), key=lambda kv: -len(kv[1])):
+            h = sum(1 for e in events if e.risk_level == "High")
+            m = sum(1 for e in events if e.risk_level == "Medium")
+            l = sum(1 for e in events if e.risk_level == "Low")
+            rows.append([module.replace("_", " ").title(), str(len(events)), str(h), str(m), str(l)])
+        rows.append(["Total", str(len(flagged_events)), str(high), str(medium), str(low)])
+        story.append(_tbl(rows, col_widths=[65 * mm, 30 * mm, 23 * mm, 23 * mm, 24 * mm]))
+    else:
+        story.append(_p("No suspicious findings were flagged by any analysis module."))
+
+    # ---- evidence summary
+    story.append(Paragraph("2. Evidence Summary & Integrity Verification", H2))
+    rows = [["ID", "File", "Type", "SHA-256 (first 20)", "Integrity"]]
+    for ev in evidence_list:
+        rows.append([str(ev.id), _p(ev.file_name, MONO), ev.file_type,
+                     _p(ev.original_hash[:20] + "…", MONO),
+                     ev.integrity_status])
+    story.append(_tbl(rows, col_widths=[10 * mm, 55 * mm, 28 * mm, 45 * mm, 27 * mm]))
+
+    # ---- module findings
+    story.append(Paragraph("3. Module-wise Findings", H2))
+    if not by_module:
+        story.append(_p("No suspicious findings were flagged by any analysis module."))
+    for module, events in by_module.items():
+        title = f"<b>{module.replace('_', ' ').title()}</b> — {len(events)} finding(s)"
+        if len(events) > MAX_FINDINGS_PER_MODULE:
+            title += f" (showing the {MAX_FINDINGS_PER_MODULE} highest-risk)"
+        story.append(_p(title))
+        rows = [["Time", "Type", "Description", "Risk"]]
+        for fe in sorted(events, key=lambda e: e.risk_score, reverse=True)[:MAX_FINDINGS_PER_MODULE]:
+            rows.append([fe.event_time.strftime("%d-%m %H:%M") if fe.event_time else "—",
+                         fe.event_type[:22], _p(fe.description[:220], BODY),
+                         f"{fe.risk_score:.0f} {fe.risk_level}"])
+        story.append(_tbl(rows, col_widths=[22 * mm, 34 * mm, 86 * mm, 23 * mm]))
+        story.append(Spacer(1, 4))
+
+    # ---- timeline
+    story.append(Paragraph("4. Reconstructed Cross-Evidence Timeline", H2))
+    if timeline:
+        display_timeline = timeline
+        if len(timeline) > MAX_TIMELINE_ROWS:
+            display_timeline = sorted(timeline, key=lambda t: t["risk_score"], reverse=True)[:MAX_TIMELINE_ROWS]
+            display_timeline.sort(key=lambda t: t["timestamp"])
+            story.append(_p(f"Showing the {MAX_TIMELINE_ROWS} highest-risk of {len(timeline)} "
+                            f"timestamped findings, in chronological order. See Section 3 and "
+                            f"the in-app Flagged Events view for the complete list.", SMALL))
+        rows = [["#", "Timestamp", "Module", "Event", "Risk"]]
+        for i, item in enumerate(display_timeline, 1):
+            rows.append([str(i),
+                         item["timestamp"].strftime("%d-%m-%Y %H:%M") if item["timestamp"] else "—",
+                         item["module"].replace("_", " "),
+                         _p(item["description"][:180], BODY),
+                         f"{item['risk_score']:.0f}"])
+        story.append(_tbl(rows, col_widths=[8 * mm, 28 * mm, 28 * mm, 84 * mm, 15 * mm]))
+    else:
+        story.append(_p("No timestamped flagged events available for timeline reconstruction."))
+
+    # ---- cross-case links
+    story.append(Paragraph("5. Cross-Case Links", H2))
+    if cross_links:
+        rows = [["Entity Type", "Value", "Linked Cases"]]
+        for link in cross_links:
+            a = getattr(link, "case_a_number", None) or f"Case #{link.case_a}"
+            b = getattr(link, "case_b_number", None) or f"Case #{link.case_b}"
+            rows.append([link.entity_type, _p(link.entity_value, MONO), f"{a} ↔ {b}"])
+        story.append(_tbl(rows, col_widths=[30 * mm, 75 * mm, 60 * mm]))
+    else:
+        story.append(_p("No entities from this case were found in other cases."))
+
+    # ---- conclusion
+    story.append(Paragraph("6. Conclusion & Recommendation", H2))
+    if flagged_events:
+        scores = [fe.risk_score for fe in flagged_events]
+        top = max(flagged_events, key=lambda fe: fe.risk_score)
+        avg = sum(scores) / len(scores)
+        summary_rows = [["Total flagged events", str(len(flagged_events))],
+                        ["High-risk events", str(high)],
+                        ["Average risk score", f"{avg:.1f}"],
+                        ["Highest-risk event", f"{top.description[:120]} ({top.risk_score:.0f})"]]
+        story.append(_tbl([[k, _p(v, BODY)] for k, v in summary_rows],
+                          col_widths=[50 * mm, 115 * mm]))
+        story.append(Spacer(1, 6))
+        if high >= 3 or avg >= 60:
+            concl = ("HIGH-RISK indicators found across multiple evidence sources. "
+                     "Immediate manual investigation is recommended, prioritising the "
+                     "highest-risk events in the timeline above.")
+        elif high >= 1 or avg >= 40:
+            concl = ("MEDIUM-RISK indicators found. Targeted manual review of the "
+                     "flagged events is recommended.")
+        else:
+            concl = "Low-risk indicators only. Routine review recommended."
+    else:
+        concl = "No suspicious indicators were detected in the uploaded evidence."
+    story.append(_p(concl))
+
+    # ---- sign-off — the disclaimer above already notes this isn't a
+    # certified 65B artifact on its own; this gives the investigating
+    # officer a place to attest to it once they've done that validation
+    story.append(Spacer(1, 14))
+    sign = Table(
+        [[_p("Signature of Investigating Officer", SMALL), _p("Date & Place", SMALL)],
+         [Spacer(1, 10), Spacer(1, 10)],
+         [_p(generated_by, BODY), _p(datetime.now().strftime("%d %b %Y"), BODY)]],
+        colWidths=[85 * mm, 85 * mm])
+    sign.setStyle(TableStyle([
+        ("LINEABOVE", (0, 2), (0, 2), 0.6, colors.HexColor("#333333")),
+        ("LINEABOVE", (1, 2), (1, 2), 0.6, colors.HexColor("#333333")),
+        ("TOPPADDING", (0, 2), (-1, 2), 4),
+    ]))
+    story.append(sign)
+
+    # ---- chain of custody appendix
+    story.append(PageBreak())
+    story.append(Paragraph("Appendix A — Chain of Custody Log", H2))
+    rows = [["Timestamp", "User", "Action", "Detail"]]
+    for c in custody_entries:
+        rows.append([c.timestamp.strftime("%d-%m %H:%M:%S"), c.username,
+                     _p(c.action, BODY), _p((c.detail or "")[:160], SMALL)])
+    story.append(_tbl(rows, col_widths=[26 * mm, 24 * mm, 50 * mm, 65 * mm]))
+
+    footer = _footer(case.case_number)
+    doc.build(story, onFirstPage=footer, onLaterPages=footer)
+    return out_path
