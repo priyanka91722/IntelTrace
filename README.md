@@ -1,9 +1,5 @@
 # CaseGuard AI
 
-Here's a complete prompt you can paste directly into Lovable:
-
-Build a web application called "IntelTrace" — an AI-powered Cybercrime Evidence Investigation & Digital Forensic Platform.
-
 Overview: IntelTrace is a web-based investigation dashboard for cybercrime investigators, cyber cells, and forensic teams to upload, analyze, and manage digital evidence (videos, images, chat screenshots, financial documents, system logs) using AI-assisted analysis. It's designed as an accessible alternative to expensive professional forensic tools (like Magnet AXIOM, Cellebrite), targeting smaller cyber cells and teams without certified forensic training.
 
 Core modules/pages to build:
